@@ -668,14 +668,26 @@ PAGES[1]={t:'Halaman Pembukaan',html:function(){
  '</div></section>';
 }};
 PAGES[2]={t:'Kisah Pengembaraan',html:function(){
- var n=esc(state.name);
- var P=[['hutan','Hutan yang indah','Di Hutan Hijau, pokok yang tinggi, bunga yang berwarna-warni dan sungai yang jernih menjadi rumah kepada burung, ikan dan arnab.'],
-  ['kotor','Alam sedang bersedih','Hari ini ada sampah di tepi sungai. Anak pokok sudah layu dan haiwan berasa sedih.'],
-  ['wira','Penjaga Alam Cilik datang','Aina dan Ali ialah Penjaga Alam Cilik. Mereka perlukan bantuan kamu, '+n+'!'],
-  ['meraikan','Misi kata kerja','Dalam setiap misi, kamu akan belajar kata kerja seperti menanam, menyiram dan mengutip. Kata kerja ialah perkataan yang menunjukkan perbuatan. Jom selamatkan alam!']];
- return '<div class="pagehead"><span class="eyebrow">Halaman 2</span><h1>Kisah Pengembaraan</h1></div><div class="stack">'+
- P.map(function(p){return '<div class="story-row card">'+art(p[0])+'<div class="tx"><h2>'+p[1]+'</h2><p class="lead">'+p[2]+'</p></div></div>';}).join('')+
- '<div class="row" style="justify-content:center"><button class="btn big" data-act="go" data-p="3">'+ico('map')+' Lihat Peta Pengembaraan</button></div></div>';
+  var n=esc(state.name);
+  var P=[
+    ['hutan','Hutan yang indah','Di Hutan Hijau, pokok yang tinggi, bunga yang berwarna-warni dan sungai yang jernih menjadi rumah kepada burung, ikan dan arnab.'],
+    ['kotor','Alam sedang bersedih','Hari ini ada sampah di tepi sungai. Anak pokok sudah layu dan haiwan berasa sedih.'],
+    ['wira','Penjaga Alam Cilik datang','Aina dan Ali ialah Penjaga Alam Cilik. Mereka perlukan bantuan kamu, '+n+'!'],
+    ['meraikan','Misi kata kerja','Dalam setiap misi, kamu akan belajar kata kerja seperti menanam, menyiram dan mengutip. Kata kerja ialah perkataan yang menunjukkan perbuatan. Jom selamatkan alam!']
+  ];
+  var gambar=[
+    'kisah-hutan.png',
+    'alam-bersedih.png',
+    'penjaga-alam.png',
+    'misi-kata-kerja.png'
+  ];
+  return '<div class="pagehead"><span class="eyebrow">Halaman 2</span><h1>Kisah Pengembaraan</h1></div><div class="stack">'+
+  P.map(function(p,i){
+    return '<div class="story-row card">'+
+    '<img src="media/'+gambar[i]+'" alt="'+p[1]+'" style="width:48%;height:180px;object-fit:cover;border-radius:16px;">'+
+    '<div class="tx"><h2>'+p[1]+'</h2><p class="lead">'+p[2]+'</p></div></div>';
+  }).join('')+
+  '<div class="row" style="justify-content:center;"><button class="btn big" data-act="go" data-p="3">'+ico('map')+' Lihat Peta Pengembaraan</button></div></div>';
 }};
 PAGES[3]={t:'Peta Pengembaraan',html:function(){
  var nodes=NODES.map(function(n,i){var xy=nodeXY(i);var done=n.task&&n.task.every(function(t){return state.done[t];});

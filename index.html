@@ -535,7 +535,24 @@ function pendingTasks(){return TASKS.filter(function(t){return !state.done[t.id]
 var AKEYS=[];WORDS.forEach(function(w){AKEYS.push(w.k);AKEYS.push('ayat_'+w.k);});
 var SONG='jom_jaga_alam';
 var AUD={url:{},st:{}};
-function audioReady(k){return !!AUD.url[k];}
+function audioReady(k){
+  return !!AUD.url[k];
+}
+
+// Padankan nama audio dengan nama fail sebenar dalam GitHub
+function audioPath(k){
+  var file = String(k);
+
+  if(file === 'mengitar_semula'){
+    file = 'mengitar semula';
+  }
+
+  if(file === 'ayat_mengitar_semula'){
+    file = 'ayat_mengitar semula';
+  }
+
+  return 'audio/' + encodeURIComponent(file) + '.mp3';
+}
 function nrm(n){return n.toLowerCase().replace(/\.[a-z0-9]+$/,'').replace(/[\s\-]+/g,'_');}
 var DB={
  open:function(){return new Promise(function(res,rej){try{var r=indexedDB.open('pkpa-audio',1);r.onupgradeneeded=function(){r.result.createObjectStore('f');};r.onsuccess=function(){res(r.result);};r.onerror=function(){rej(r.error);};}catch(e){rej(e);}});},
@@ -543,14 +560,43 @@ var DB={
  all:function(){return DB.open().then(function(d){return new Promise(function(res,rej){var out={},t=d.transaction('f','readonly'),c=t.objectStore('f').openCursor();c.onsuccess=function(){var cur=c.result;if(cur){out[cur.key]=cur.value;cur.continue();}else res(out);};c.onerror=function(){rej(c.error);};});});},
  clear:function(){return DB.open().then(function(d){return new Promise(function(res,rej){var t=d.transaction('f','readwrite');t.objectStore('f').clear();t.oncomplete=res;t.onerror=function(){rej(t.error);};});});}
 };
-function probe(k){return new Promise(function(r){var a=new Audio(),done=false;function fin(ok){if(done)return;done=true;a.onerror=null;a.onloadedmetadata=null;r(ok);}a.preload='metadata';a.onloadedmetadata=function(){fin(true);};a.onerror=function(){fin(false);};setTimeout(function(){fin(false);},6000);a.src='audio/'+k+'.mp3';});}
+function probe(k){
+  return new Promise(function(resolve){
+    var a = new Audio();
+    var done = false;
+
+    function finish(ok){
+      if(done) return;
+      done = true;
+      a.onerror = null;
+      a.onloadedmetadata = null;
+      resolve(ok);
+    }
+
+    a.preload = 'metadata';
+
+    a.onloadedmetadata = function(){
+      finish(true);
+    };
+
+    a.onerror = function(){
+      finish(false);
+    };
+
+    setTimeout(function(){
+      finish(false);
+    }, 10000);
+
+    a.src = audioPath(k);
+  });
+}
 function initAudio(){
  AKEYS.concat([SONG]).forEach(function(k){AUD.st[k]='checking';});
  var userFirst=DB.all().catch(function(){return {};});
  userFirst.then(function(blobs){
   Object.keys(blobs).forEach(function(k){try{AUD.url[k]=URL.createObjectURL(blobs[k]);AUD.st[k]='ready';AUD.user=AUD.user||{};AUD.user[k]=true;}catch(e){}});
   refreshAudio();
-  return Promise.all(AKEYS.concat([SONG]).filter(function(k){return !AUD.url[k];}).map(function(k){return probe(k).then(function(ok){if(ok){AUD.url[k]='audio/'+k+'.mp3';AUD.st[k]='ready';}else AUD.st[k]='missing';refreshAudio();});}));
+  return Promise.all(AKEYS.concat([SONG]).filter(function(k){return !AUD.url[k];}).map(function(k){return probe(k).then(function(ok){if(ok){AUD.url[k]=audioPath(k);AUD.st[k]='ready';}else AUD.st[k]='missing';refreshAudio();});}));
  });
 }
 var player=new Audio(),curBtn=null;

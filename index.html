@@ -682,11 +682,18 @@ PAGES[2]={t:'Kisah Pengembaraan',html:function(){
     'misi-kata-kerja.png'
   ];
   return '<div class="pagehead"><span class="eyebrow">Halaman 2</span><h1>Kisah Pengembaraan</h1></div><div class="stack">'+
-  P.map(function(p,i){
-    return '<div class="story-row card">'+
-    '<img src="media/'+gambar[i]+'" alt="'+p[1]+'" style="width:48%;height:180px;object-fit:cover;border-radius:16px;">'+
-    '<div class="tx"><h2>'+p[1]+'</h2><p class="lead">'+p[2]+'</p></div></div>';
-  }).join('')+
+P.map(function(p,i){
+  return '<div class="story-row card" style="display:flex;align-items:center;gap:24px;padding:20px;min-height:270px;box-sizing:border-box;">'+
+  (i%2===0
+    ? '<img src="media/'+gambar[i]+'" alt="'+p[1]+'" style="width:55%;height:230px;max-width:55%;object-fit:cover;border-radius:18px;flex-shrink:0;">'
+    : '<div class="tx" style="flex:1;"><h2>'+p[1]+'</h2><p class="lead">'+p[2]+'</p></div>'+
+      '<img src="media/'+gambar[i]+'" alt="'+p[1]+'" style="width:55%;height:230px;max-width:55%;object-fit:cover;border-radius:18px;flex-shrink:0;">'
+  )+
+  (i%2===0
+    ? '<div class="tx" style="flex:1;"><h2>'+p[1]+'</h2><p class="lead">'+p[2]+'</p></div>'
+    : '')+
+  '</div>';
+}).join('')+
   '<div class="row" style="justify-content:center;"><button class="btn big" data-act="go" data-p="3">'+ico('map')+' Lihat Peta Pengembaraan</button></div></div>';
 }};
 PAGES[3]={t:'Peta Pengembaraan',html:function(){

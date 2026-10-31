@@ -533,7 +533,7 @@ function pendingTasks(){return TASKS.filter(function(t){return !state.done[t.id]
 
 /* ============ Audio ============ */
 var AKEYS=[];WORDS.forEach(function(w){AKEYS.push(w.k);AKEYS.push('ayat_'+w.k);});
-var SONG='jom_jaga_alam';
+var SONG='audiojom_jaga_alam.mp3';
 var AUD={url:{},st:{}};
 function audioReady(k){
   return !!AUD.url[k];

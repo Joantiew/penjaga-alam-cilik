@@ -728,13 +728,22 @@ PAGES[7]={t:'Jom Nyanyi Sama-sama',html:function(){
 '.lyr + .card{background:#E1F3D8 !important;border:3px solid #80BC72 !important;}' +
   '#songVid{width:100% !important;max-width:850px !important;height:auto !important;aspect-ratio:16/9;display:block;margin:auto;}' +
 '.video-besar{grid-column:1 / -1;width:100%;max-width:1100px;margin:0 auto;}' +
+'.rakaman-berwarna{
+  background:#FFF0B8 !important;
+  border:3px solid #F4BD38 !important;
+}' +
+
+'.video-berwarna{
+  background:#D6F5D6 !important;
+  border:3px solid #65BD78 !important;
+}' +
   '</style>' +
   '<div class="pagehead"><span class="eyebrow">Halaman 7</span><h1>Jom Nyanyi Sama-sama</h1><p>Lagu: “Jom Jaga Alam”. Baca liriknya dan nyanyi dengan kuat.</p></div><div class="stack"><div class="lyr">'+
  '<div class="card"><span class="tag">Rangkap 1</span><p>Mari kawan, mari semua,<br>Jaga alam tanggungjawab kita,<br>Menyiram pokok setiap masa,<br>Pokok menghijau, udara selesa!</p></div>'+
 '<div class="card"><span class="tag">Rangkap 2</span><p>Menanam pokok di tepi laman,<br>Mengutip sampah jangan dilupakan,<br>Menyapu daun di halaman,<br>Alam bersih jadi kebanggaan!</p></div>'+
 '<div class="card"><span class="tag">Korus</span><p>Jom, jom, jom kita lakukan,<br>Membersihkan kawasan persekitaran,<br>Jom, jom, jom bersama-sama,<br>Sayangi bumi kita semua!</p></div>'+
- '<div class="card stack"><h3>Rakaman lagu</h3><div id="songBox">'+songBoxHTML()+'</div></div>'+
- '<div class="card stack video-besar"><h3>Video Jom Nyanyi</h3><div class="vid"><video id="songVid" controls playsinline preload="metadata" aria-label="Video Jom Nyanyi"><source src="media/jom-nyanyi.mp4" type="video/mp4">Pelayar ini tidak menyokong video.</video></div>'+
+ '<div class="card stack rakaman-berwarna"><h3>🎵 Rakaman lagu</h3><div id="songBox">'+songBoxHTML()+'</div></div>'+ 
+ '<div class="card stack video-besar video-berwarna"><h3>Video Jom Nyanyi</h3><div class="vid"><video id="songVid" controls playsinline preload="metadata" aria-label="Video Jom Nyanyi"><source src="media/jom-nyanyi.mp4" type="video/mp4">Pelayar ini tidak menyokong video.</video></div>'+
  '<div id="vidMsg" class="note warn hide" role="status">Video tidak dapat dimuatkan di sini. Buka video melalui pautan Google Drive di bawah.</div>'+
  '<p class="hint"><a href="https://drive.google.com/file/d/1LKKAJen-KojWDRkQWv-vdhoCBkb_zm1t/view?usp=drive_link" target="_blank" rel="noopener">Buka video di Google Drive</a> jika pemain di atas tidak berfungsi.</p></div></div>';
 }};

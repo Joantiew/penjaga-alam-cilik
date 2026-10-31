@@ -410,6 +410,7 @@ menanam_soalan1:['misi-menanam.png',1102,1594,'Aina menanam anak pokok bersama a
  hutan:['hutan.jpg',1120,630,'Hutan hijau dengan air terjun dan sungai yang jernih'],
  kotor:['v-membersihkan.jpg',695,866,'Sampah di tepi sungai yang perlu dibersihkan'],
  wira:['aina-ali.jpg',840,472,'Aina dan Ali, Penjaga Alam Cilik'],
+ kata_kerja:['kata-kerja.png',1180,1180,'Aina menanam anak pokok di taman'],
  meraikan:['taman.jpg',1600,900,'Murid-murid menjaga taman bersama-sama']
 };
 function art(k,cls){
@@ -715,7 +716,8 @@ PAGES[4]={t:'Biodata Guru',html:function(){
 }};
 PAGES[5]={t:'Kenali Dunia Kata Kerja',html:function(){
  return '<div class="pagehead"><span class="eyebrow">Halaman 5</span><h1>Kenali Dunia Kata Kerja</h1></div><div class="stack">'+
- '<div class="card two" style="align-items:center"><div class="stack"><h2>Apakah kata kerja?</h2><p class="lead"><b>Kata kerja</b> ialah perkataan yang menunjukkan perbuatan atau tindakan.</p>'+sentence([['Aina','s'],['menanam','k'],['pokok','o']])+'<p>Tanya diri kamu: <b>Apakah yang dilakukan?</b> Jawapannya ialah kata kerja.</p></div>'+art('menanam')+'</div>'+
+ '<div class="card two" style="align-items:center"><div class="stack"><h2>Apakah kata kerja?</h2><p class="lead"><b>Kata kerja</b> ialah perkataan yang menunjukkan perbuatan atau tindakan.</p>'+sentence([['Aina','s'],['menanam','k'],['pokok','o']])+'<p>Tanya diri kamu: <b>Apakah yang dilakukan?</b> Jawapannya ialah kata kerja.</p>
+'</div>'+art('kata_kerja')+'</div>'+
  '<h2>Lapan kata kerja penjaga alam</h2><div class="grid">'+
  WORDS.map(function(w){return '<div class="card vcard">'+art(w.k)+'<div class="w">'+w.w+'</div><p class="m">'+w.m+'</p></div>';}).join('')+'</div></div>';
 }};

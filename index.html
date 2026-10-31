@@ -412,7 +412,8 @@ menanam_soalan1:['misi-menanam.png',1102,1594,'Aina menanam anak pokok bersama a
  wira:['aina-ali.jpg',840,472,'Aina dan Ali, Penjaga Alam Cilik'],
  meraikan:['taman.jpg',1600,900,'Murid-murid menjaga taman bersama-sama']
 };
-function art(k,cls){var m=IMG[k];return '<div class="art'+(m[2]>m[1]?' v':'')+(cls?' '+cls:'')+'"><img src="media/'+m[0]+'" width="'+m[1]+'" height="'+m[2]+'" alt="'+esc(m[3])+'" decoding="async" draggable="false"></div>';}
+function art(k,cls){
+  var m=IMG[k] || IMG['menanam'];return '<div class="art'+(m[2]>m[1]?' v':'')+(cls?' '+cls:'')+'"><img src="media/'+m[0]+'" width="'+m[1]+'" height="'+m[2]+'" alt="'+esc(m[3])+'" decoding="async" draggable="false"></div>';}
 function heroImg(){return '<div class="art float"><img src="media/hero.jpg" width="1600" height="900" alt="Aina dan Ali menyiram anak pokok dan mengutip sampah di tepi sungai hutan" decoding="async"></div>';}
 /* Rimba: letakkan fail media/rimba.png (burung hantu kecil berjambul daun). Jika tiada, huruf R dipaparkan. */
 function rimbaImg(){return '<span class="rimba"><img src="media/rimba.png" alt="Rimba, burung hantu penjaga hutan" draggable="false" onerror="this.parentNode.classList.add(\'none\')"><b aria-hidden="true">R</b></span>';}

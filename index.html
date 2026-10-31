@@ -220,8 +220,26 @@ audio{width:100%;max-width:560px}
 @media (min-width:760px){.bio-grid{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr)}}
 .portrait{margin:0;width:100%;max-width:420px;justify-self:center;aspect-ratio:835/894;border-radius:22px;overflow:hidden;border:5px solid #fff;box-shadow:0 8px 0 rgba(0,0,0,.07),0 16px 30px var(--shadow);background:var(--bg2);line-height:0}
 .portrait img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;display:block}
-.vid{width:100%;max-width:900px;margin-inline:auto;aspect-ratio:16/9;border-radius:22px;overflow:hidden;background:#000;border:4px solid #fff;box-shadow:0 8px 0 rgba(0,0,0,.08),0 16px 30px var(--shadow);line-height:0}
-.vid video{width:100%;height:100%;display:block;object-fit:contain;background:#000}
+.vid{
+  width:100%;
+  max-width:1100px;
+  margin-inline:auto;
+  aspect-ratio:16/9;
+  border-radius:22px;
+  overflow:hidden;
+  background:#000;
+  border:4px solid #fff;
+  box-shadow:0 8px 0 rgba(0,0,0,.08),0 16px 30px var(--shadow);
+  line-height:0;
+}
+
+.vid video{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:contain;
+  background:#000;
+}
 .bdgrow{display:flex;flex-wrap:wrap;gap:14px 18px;justify-content:center}
 .bdgf{margin:0;width:96px;text-align:center;font:800 .82rem/1.15 var(--f-d);color:var(--ink2);display:grid;gap:4px;justify-items:center}
 .bdg{display:block;width:80px;height:80px;border-radius:50%;overflow:hidden;border:5px solid #f0b92b;box-shadow:0 0 0 3px #fff,0 6px 10px rgba(0,0,0,.25);background:#fff}
@@ -703,12 +721,19 @@ PAGES[6]={t:'Dengar dan Sebut',html:function(){
  '<p class="hint">Butang ini dibuka selepas kamu menanda semua 8 perkataan.</p></div></div>';
 }};
 PAGES[7]={t:'Jom Nyanyi Sama-sama',html:function(){
- return '<div class="pagehead"><span class="eyebrow">Halaman 7</span><h1>Jom Nyanyi Sama-sama</h1><p>Lagu: “Jom Jaga Alam”. Baca liriknya dan nyanyi dengan kuat.</p></div><div class="stack"><div class="lyr">'+
+ return '<style>' +
+  '.lyr .card:nth-child(1){background:#FFF0B8 !important;border:3px solid #F4BD38 !important;}' +
+  '.lyr .card:nth-child(2){background:#D6F5D6 !important;border:3px solid #65BD78 !important;}' +
+  '.lyr .card:nth-child(3){background:#DCEBFF !important;border:3px solid #76A8EE !important;}' +
+  '#songVid{width:100% !important;max-width:850px !important;height:auto !important;aspect-ratio:16/9;display:block;margin:auto;}' +
+'.video-besar{grid-column:1 / -1;width:100%;max-width:1100px;margin:0 auto;}' +
+  '</style>' +
+  '<div class="pagehead"><span class="eyebrow">Halaman 7</span><h1>Jom Nyanyi Sama-sama</h1><p>Lagu: “Jom Jaga Alam”. Baca liriknya dan nyanyi dengan kuat.</p></div><div class="stack"><div class="lyr">'+
  '<div class="card"><span class="tag">Rangkap 1</span><p>Mari kawan, mari semua,<br>Jaga alam tanggungjawab kita,<br>Menyiram pokok setiap masa,<br>Pokok menghijau, udara selesa!</p></div>'+
 '<div class="card"><span class="tag">Rangkap 2</span><p>Menanam pokok di tepi laman,<br>Mengutip sampah jangan dilupakan,<br>Menyapu daun di halaman,<br>Alam bersih jadi kebanggaan!</p></div>'+
 '<div class="card"><span class="tag">Korus</span><p>Jom, jom, jom kita lakukan,<br>Membersihkan kawasan persekitaran,<br>Jom, jom, jom bersama-sama,<br>Sayangi bumi kita semua!</p></div>'+
  '<div class="card stack"><h3>Rakaman lagu</h3><div id="songBox">'+songBoxHTML()+'</div></div>'+
- '<div class="card stack"><h3>Video Jom Nyanyi</h3><div class="vid"><video id="songVid" controls playsinline preload="metadata" aria-label="Video Jom Nyanyi"><source src="media/jom-nyanyi.mp4" type="video/mp4">Pelayar ini tidak menyokong video.</video></div>'+
+ '<div class="card stack video-besar"><h3>Video Jom Nyanyi</h3><div class="vid"><video id="songVid" controls playsinline preload="metadata" aria-label="Video Jom Nyanyi"><source src="media/jom-nyanyi.mp4" type="video/mp4">Pelayar ini tidak menyokong video.</video></div>'+
  '<div id="vidMsg" class="note warn hide" role="status">Video tidak dapat dimuatkan di sini. Buka video melalui pautan Google Drive di bawah.</div>'+
  '<p class="hint"><a href="https://drive.google.com/file/d/1LKKAJen-KojWDRkQWv-vdhoCBkb_zm1t/view?usp=drive_link" target="_blank" rel="noopener">Buka video di Google Drive</a> jika pemain di atas tidak berfungsi.</p></div></div>';
 }};

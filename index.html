@@ -1,0 +1,920 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Penjaga Alam Cilik</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Konsep: peta pengembaraan hutan. Papan tanda kayu, hijau daun, biru sungai, bahan 3D tanah liat. */
+:root{
+  --bg:#e4f5dc; --bg2:#cdeabf; --card:#ffffff; --card2:#f3fbee;
+  --ink:#1c3828; --ink2:#46604f; --line:#c3e0b6;
+  --leaf:#2a8f45; --leaf-d:#1b7536; --leaf-t:#ffffff;
+  --water:#1f86d0; --water-bg:#dcf0ff;
+  --wood:#8a5326; --wood-l:#c98f51; --wood-d:#4a2a10;
+  --sun:#ffc83d; --ok:#17803f; --ok-bg:#d6f4df; --bad:#b4400c; --bad-bg:#ffe6d6;
+  --shadow:rgba(28,70,40,.2); --btn-edge:#14562a;
+  --f-d:'Baloo 2','Trebuchet MS',system-ui,sans-serif;
+  --f-b:'Nunito','Segoe UI',system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e2117; --bg2:#14301f; --card:#173a26; --card2:#1c4630;
+  --ink:#eaf7e8; --ink2:#a9cdb4; --line:#2d6143;
+  --leaf:#46b862; --leaf-d:#2c9448; --leaf-t:#08210f;
+  --water:#6cc0f7; --water-bg:#14405f;
+  --ok:#6fe39a; --ok-bg:#145232; --bad:#ffb28a; --bad-bg:#5b2a12;
+  --shadow:rgba(0,0,0,.4); --btn-edge:#1a6b34; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e2117; --bg2:#14301f; --card:#173a26; --card2:#1c4630;
+  --ink:#eaf7e8; --ink2:#a9cdb4; --line:#2d6143;
+  --leaf:#46b862; --leaf-d:#2c9448; --leaf-t:#08210f;
+  --water:#6cc0f7; --water-bg:#14405f;
+  --ok:#6fe39a; --ok-bg:#145232; --bad:#ffb28a; --bad-bg:#5b2a12;
+  --shadow:rgba(0,0,0,.4); --btn-edge:#1a6b34; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:600 18px/1.55 var(--f-b);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px 0;min-height:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
+h1,h2,h3{font-family:var(--f-d);line-height:1.1;text-wrap:balance;margin:0}
+h1{font-size:clamp(2rem,6vw,3.4rem);font-weight:800}
+h2{font-size:clamp(1.6rem,4.4vw,2.4rem);font-weight:800}
+h3{font-size:1.35rem;font-weight:700}
+p{margin:0}
+a{color:var(--water)}
+.wrap{max-width:1040px;margin-inline:auto}
+.ic{width:1.25em;height:1.25em;flex:none}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:4px solid var(--sun);outline-offset:3px;border-radius:12px}
+
+/* Header */
+.top{position:sticky;top:calc(env(safe-area-inset-top,0px) + 6px);z-index:40;max-width:1040px;margin:0 auto 18px;
+  display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:8px 12px;border-radius:22px;
+  background:var(--card);border:2px solid var(--line);box-shadow:0 5px 0 var(--line),0 10px 20px var(--shadow)}
+.brand{display:flex;align-items:center;gap:10px;font:800 1.15rem/1 var(--f-d);color:var(--ink);margin-right:auto;min-width:0}
+.brand span{white-space:nowrap}
+.prog{display:flex;align-items:center;gap:10px;font:800 .95rem var(--f-d);flex:1 1 200px;min-width:160px;max-width:340px}
+.bar{flex:1;height:16px;border-radius:99px;background:var(--bg2);overflow:hidden;border:2px solid var(--line)}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#6fd35c,#2a8f45);border-radius:99px;transition:width .5s}
+.tb{display:flex;gap:8px;flex-wrap:wrap}
+.tbtn{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:6px 12px;border-radius:14px;border:2px solid var(--line);background:var(--card2);
+  color:var(--ink);font:800 .95rem var(--f-d);cursor:pointer}
+.tbtn:hover{background:var(--bg2)}
+.who{max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (max-width:640px){.tbtn .lbl{display:none}.tbtn{padding:6px 11px}.brand span{display:none}.prog{max-width:none}}
+
+/* Buttons */
+.btn{font:800 1.2rem/1.1 var(--f-d);display:inline-flex;align-items:center;justify-content:center;gap:.5em;min-height:58px;padding:.5em 1.4em;
+  border-radius:18px;border:0;cursor:pointer;color:var(--leaf-t);text-decoration:none;
+  background:linear-gradient(var(--leaf),var(--leaf-d));box-shadow:0 6px 0 var(--btn-edge),0 12px 20px var(--shadow);transition:transform .1s,box-shadow .1s}
+.btn:hover{filter:brightness(1.06)}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 var(--btn-edge)}
+.btn.alt{background:var(--card);color:var(--ink);box-shadow:0 5px 0 var(--line),inset 0 0 0 2px var(--line)}
+.btn.blue{background:linear-gradient(#2f9be6,#1769ad);color:#fff;box-shadow:0 6px 0 #0f4c7e,0 12px 20px var(--shadow)}
+.btn.big{font-size:1.45rem;min-height:68px;padding-inline:1.8em}
+.btn.sm{min-height:48px;font-size:1rem;padding:.4em 1em;box-shadow:0 4px 0 var(--btn-edge)}
+.btn[disabled],.btn[aria-disabled="true"]{opacity:.5;cursor:not-allowed;filter:grayscale(.5);transform:none}
+.row{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+
+/* Cards */
+.card{background:var(--card);border-radius:28px;padding:clamp(16px,3vw,30px);border:2px solid var(--line);box-shadow:0 8px 0 var(--line),0 16px 32px var(--shadow)}
+.card.soft{background:var(--card2);box-shadow:none}
+.art{border-radius:24px;overflow:hidden;border:4px solid #fff;box-shadow:0 8px 0 rgba(0,0,0,.08),0 14px 26px var(--shadow);background:#bfe9ff;line-height:0}
+.art img{width:100%;height:auto;display:block;object-fit:cover}
+.art.v{max-width:360px;width:100%;margin-inline:auto}
+.q .art.v{margin:0}
+.logo{width:40px;height:40px;border-radius:50%;object-fit:cover;object-position:40% 35%;border:3px solid #fff;box-shadow:0 2px 6px var(--shadow);flex:none}
+.eyebrow{font:800 .9rem var(--f-d);letter-spacing:.14em;text-transform:uppercase;color:var(--leaf)}
+:root[data-theme="dark"] .eyebrow{color:var(--leaf)}
+.lead{font-size:1.25rem;color:var(--ink2)}
+.stack{display:grid;gap:22px}
+.pagehead{display:grid;gap:8px;margin-bottom:22px}
+.pagehead p{color:var(--ink2);font-size:1.15rem;max-width:62ch}
+
+/* Page 1 */
+.p1{display:grid;gap:26px;align-items:center;grid-template-columns:1fr}
+@media (min-width:900px){.p1{grid-template-columns:1fr 1.15fr}.p1 .p1-art{order:2}}
+.p1-body{display:grid;gap:18px;min-width:0}
+.field{display:grid;gap:8px}
+.field label{font:800 1.15rem var(--f-d)}
+.field input{font:700 1.35rem var(--f-b);min-height:62px;padding:.4em .9em;border-radius:18px;border:3px solid var(--line);background:var(--card);color:var(--ink);width:100%}
+.field input:focus{border-color:var(--water);outline:4px solid color-mix(in srgb,var(--sun) 70%,transparent)}
+.err{color:var(--bad);font-weight:800;min-height:1.4em}
+.mission{display:grid;gap:8px;padding:0;margin:0;list-style:none}
+.mission li{display:flex;gap:10px;align-items:flex-start}
+.mission li svg{color:var(--leaf);margin-top:.2em}
+
+/* Story */
+.story-row{display:grid;gap:18px;align-items:center;grid-template-columns:1fr}
+@media (min-width:820px){.story-row{grid-template-columns:1fr 1fr}.story-row:nth-child(even) .art{order:2}}
+.story-row .tx{display:grid;gap:10px}
+
+/* Map */
+.mapwrap{position:relative;width:min(100%,640px);margin:0 auto;aspect-ratio:600/1100;border-radius:30px;overflow:hidden;border:4px solid #fff;box-shadow:0 10px 0 rgba(0,0,0,.08),0 18px 34px var(--shadow);background:#bfe9ff;line-height:0}
+.mapwrap>img.mapbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.node{position:absolute;transform:translate(-50%,-50%);z-index:2;display:flex;align-items:center;gap:7px;text-align:left;cursor:pointer;line-height:1.1;
+  font:800 clamp(.9rem,2.9vw,1.1rem) var(--f-d);color:#fff;text-decoration:none;
+  background:linear-gradient(var(--wood-l),var(--wood));border:3px solid var(--wood-d);border-radius:14px;padding:6px 12px 6px 6px;box-shadow:0 5px 0 var(--wood-d),0 10px 14px rgba(0,0,0,.25);max-width:46%;transition:transform .12s}
+.node:hover{transform:translate(-50%,-54%)}
+.node .no{flex:none;width:30px;height:30px;border-radius:50%;background:var(--sun);color:var(--wood-d);display:grid;place-items:center;font-size:1rem}
+.node .tick{position:absolute;right:-12px;top:-14px;width:30px;height:30px;border-radius:50%;background:#17a047;border:3px solid #fff;display:grid;place-items:center;color:#fff}
+.node .tick .ic{width:16px;height:16px}
+.node.lock{filter:saturate(.5)}
+.node.info{background:linear-gradient(#6aaee0,#2c6fa8);border-color:#17426a;box-shadow:0 5px 0 #17426a,0 10px 14px rgba(0,0,0,.25)}
+.legend{display:flex;flex-wrap:wrap;gap:10px 22px;justify-content:center;margin-top:18px;font-size:1rem;color:var(--ink2)}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+
+/* Biodata */
+.bio{display:grid;gap:0;margin:0}
+.bio div{display:grid;grid-template-columns:minmax(120px,.8fr) 1.6fr;gap:12px;padding:12px 0;border-bottom:2px dashed var(--line)}
+.bio div:last-child{border:0}
+.bio dt{font:800 1rem var(--f-d);color:var(--leaf);text-transform:uppercase;letter-spacing:.08em}
+.bio dd{margin:0;font:800 1.2rem var(--f-d);overflow-wrap:anywhere}
+@media (max-width:480px){.bio div{grid-template-columns:1fr;gap:2px}}
+
+/* Verb cards */
+.grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr))}
+.vcard{display:grid;gap:12px;align-content:start;min-width:0}
+.vcard .w{font:800 1.7rem var(--f-d);color:var(--leaf);line-height:1}
+.vcard .m{color:var(--ink2);font-size:1.05rem}
+.sent{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch}
+.part{display:inline-flex;flex-direction:column;gap:2px;padding:6px 14px 8px;border-radius:14px;border:3px solid;font:800 1.35rem/1.2 var(--f-d)}
+.part small{font:800 .72rem var(--f-b);letter-spacing:.08em;text-transform:uppercase;opacity:.85}
+.part.s{background:var(--water-bg);border-color:var(--water);color:var(--ink)}
+.part.k{background:var(--ok-bg);border-color:var(--ok);color:var(--ink)}
+.part.o{background:#ffe9bf;border-color:#d38a0a;color:#3b2a05}
+:root[data-theme="dark"] .part.o{background:#5c4210;color:#ffe9bf}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .part.o{background:#5c4210;color:#ffe9bf}}
+.part.n{background:var(--card2);border-color:var(--line);color:var(--ink)}
+
+/* Audio */
+.wcard{display:grid;gap:12px;align-content:start;min-width:0}
+.wcard .w{font:800 2rem var(--f-d);color:var(--leaf);line-height:1}
+.wcard .s{font:700 1.25rem/1.35 var(--f-d)}
+.aud{display:flex;align-items:center;justify-content:center;gap:10px;min-height:54px;width:100%;border-radius:16px;border:0;cursor:pointer;color:#fff;font:800 1.05rem var(--f-d);padding:.4em .8em;text-align:center;line-height:1.15}
+.aud.wd{background:linear-gradient(#2f9be6,#1769ad);box-shadow:0 5px 0 #0f4c7e}
+.aud.y{background:linear-gradient(#f0a52a,#c9770b);box-shadow:0 5px 0 #7a4707}
+.aud:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,.4)}
+.aud.playing{outline:4px solid var(--sun);outline-offset:2px}
+.aud.playing .ic{animation:pulse .7s infinite alternate}
+.aud[disabled]{background:var(--bg2);color:var(--ink2);box-shadow:inset 0 0 0 2px var(--line);cursor:not-allowed}
+.tickbtn{display:flex;align-items:center;gap:10px;min-height:50px;width:100%;border-radius:14px;border:3px dashed var(--line);background:transparent;color:var(--ink);font:800 1rem var(--f-d);padding:.3em .8em;cursor:pointer;text-align:left}
+.tickbtn .bx{width:28px;height:28px;border-radius:8px;border:3px solid var(--ink2);display:grid;place-items:center;flex:none;color:transparent}
+.tickbtn[aria-pressed="true"]{border-style:solid;border-color:var(--ok);background:var(--ok-bg)}
+.tickbtn[aria-pressed="true"] .bx{background:var(--ok);border-color:var(--ok);color:#fff}
+.pills{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));margin:0;padding:0;list-style:none}
+.pill{display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:12px;background:var(--card2);border:2px solid var(--line);font:700 .95rem var(--f-b);overflow-wrap:anywhere}
+.pill.ok{background:var(--ok-bg);border-color:var(--ok)}
+.pill .d{width:14px;height:14px;border-radius:50%;background:var(--ink2);flex:none;opacity:.5}
+.pill.ok .d{background:var(--ok);opacity:1}
+details.tch{border-radius:20px;border:2px solid var(--line);background:var(--card2);padding:14px 18px}
+details.tch summary{font:800 1.1rem var(--f-d);cursor:pointer;min-height:36px;display:flex;align-items:center}
+details.tch .in{display:grid;gap:14px;margin-top:12px;font-size:1rem}
+code{font:700 .95em ui-monospace,Menlo,Consolas,monospace;background:var(--bg2);padding:1px 6px;border-radius:6px;overflow-wrap:anywhere}
+.filebtn{position:relative;overflow:hidden}
+.filebtn input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
+.note{padding:12px 16px;border-radius:16px;background:var(--water-bg);border:2px solid var(--water);font-size:1rem}
+.note.warn{background:#fff1c9;border-color:#d9a017;color:#4a3503}
+:root[data-theme="dark"] .note.warn{background:#4d3c0b;color:#ffeab0}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .note.warn{background:#4d3c0b;color:#ffeab0}}
+@keyframes pulse{from{transform:scale(1)}to{transform:scale(1.25)}}
+
+/* Song */
+.lyr{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.lyr .card{display:grid;gap:10px;align-content:start}
+.lyr .tag{font:800 .95rem var(--f-d);letter-spacing:.12em;text-transform:uppercase;color:var(--leaf)}
+.lyr p{font:700 1.35rem/1.5 var(--f-d)}
+.lyr .chorus{background:linear-gradient(160deg,#fff4c2,#ffe08a);border-color:#e0b53a;color:#3a2a05}
+.lyr .chorus .tag{color:#8a5a00}
+:root[data-theme="dark"] .lyr .chorus{background:linear-gradient(160deg,#5c4a12,#7a5f12);color:#fff1c2}
+:root[data-theme="dark"] .lyr .chorus .tag{color:#ffd966}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .lyr .chorus{background:linear-gradient(160deg,#5c4a12,#7a5f12);color:#fff1c2}:root:not([data-theme="light"]) .lyr .chorus .tag{color:#ffd966}}
+audio{width:100%;max-width:560px}
+
+/* Exercise */
+.ex{display:grid;gap:18px}
+.ex-top{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between}
+.ex-g{font:800 .95rem var(--f-d);letter-spacing:.1em;text-transform:uppercase;color:var(--leaf)}
+.dots{display:flex;gap:6px;flex-wrap:wrap}
+.dots i{width:16px;height:16px;border-radius:50%;background:var(--bg2);border:2px solid var(--line)}
+.dots i.cur{border-color:var(--water);background:var(--water-bg)}
+.dots i.r{background:var(--ok);border-color:var(--ok)}
+.dots i.x{background:var(--bad);border-color:var(--bad)}
+.q{display:grid;gap:18px;grid-template-columns:1fr;align-items:start}
+.q.has-art{grid-template-columns:1fr}
+@media (min-width:760px){.q.has-art{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr)}}
+.q .qp{font:800 clamp(1.3rem,3.6vw,1.8rem)/1.25 var(--f-d)}
+.opts{display:grid;gap:12px}
+.opt{display:flex;gap:12px;align-items:center;text-align:left;font:800 1.2rem/1.25 var(--f-b);padding:.7em 1em;border-radius:18px;border:3px solid var(--line);
+  background:var(--card);color:var(--ink);cursor:pointer;min-height:58px;width:100%;box-shadow:0 4px 0 var(--line)}
+.opt:hover:not([disabled]){border-color:var(--water)}
+.opt .l{flex:none;width:34px;height:34px;border-radius:50%;background:var(--bg2);display:grid;place-items:center;font:800 1rem var(--f-d)}
+.opt[aria-pressed="true"]{border-color:var(--water);background:var(--water-bg)}
+.opt.right{border-color:var(--ok);background:var(--ok-bg)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.opt[disabled]{cursor:default}
+.chips{display:flex;flex-wrap:wrap;gap:12px}
+.chips .opt{width:auto;font:800 1.45rem var(--f-d);padding:.5em 1em;min-height:62px}
+.fb{display:flex;gap:14px;align-items:center;padding:12px 18px;border-radius:18px;font-size:1.1rem;border:3px solid}
+.fb .rb{flex:none;width:56px;line-height:0}.fb>div{display:grid;gap:4px;min-width:0}
+.bio-grid{display:grid;gap:22px;grid-template-columns:minmax(0,1fr);align-items:start}
+@media (min-width:760px){.bio-grid{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr)}}
+.portrait{margin:0;width:100%;max-width:420px;justify-self:center;aspect-ratio:835/894;border-radius:22px;overflow:hidden;border:5px solid #fff;box-shadow:0 8px 0 rgba(0,0,0,.07),0 16px 30px var(--shadow);background:var(--bg2);line-height:0}
+.portrait img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;display:block}
+.vid{width:100%;max-width:900px;margin-inline:auto;aspect-ratio:16/9;border-radius:22px;overflow:hidden;background:#000;border:4px solid #fff;box-shadow:0 8px 0 rgba(0,0,0,.08),0 16px 30px var(--shadow);line-height:0}
+.vid video{width:100%;height:100%;display:block;object-fit:contain;background:#000}
+.bdgrow{display:flex;flex-wrap:wrap;gap:14px 18px;justify-content:center}
+.bdgf{margin:0;width:96px;text-align:center;font:800 .82rem/1.15 var(--f-d);color:var(--ink2);display:grid;gap:4px;justify-items:center}
+.bdg{display:block;width:80px;height:80px;border-radius:50%;overflow:hidden;border:5px solid #f0b92b;box-shadow:0 0 0 3px #fff,0 6px 10px rgba(0,0,0,.25);background:#fff}
+.bdg img{width:100%;height:100%;object-fit:cover;object-position:50% 28%;display:block}
+.bdg.off{filter:grayscale(1) opacity(.45)}
+.bdgbig .bdg{width:108px;height:108px}
+.stars .ic{width:34px;height:34px}
+.fb b{font:800 1.3rem var(--f-d)}
+.fb.ok{background:var(--ok-bg);border-color:var(--ok)}
+.fb.no{background:var(--bad-bg);border-color:var(--bad)}
+.result{display:grid;gap:16px;justify-items:center;text-align:center;padding:10px 0}
+.score{font:800 clamp(3.6rem,14vw,6rem)/1 var(--f-d);color:var(--leaf)}
+.stars{display:flex;gap:6px;color:#f2b21a}
+.stars .ic{width:46px;height:46px}
+.stars .off{color:var(--line)}
+
+/* Types page */
+.tcards{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.tcard{display:grid;gap:12px;align-content:start;min-width:0}
+.tcard .rule{color:var(--ink2);font-size:1.05rem}
+.donebadge{display:inline-flex;align-items:center;gap:6px;font:800 .9rem var(--f-d);color:var(--ok);background:var(--ok-bg);border-radius:99px;padding:3px 12px;width:max-content}
+.todo{background:var(--card2);color:var(--ink2)}
+.two{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}
+
+/* Bottom nav */
+.nav{position:sticky;bottom:0;z-index:40;max-width:1040px;margin:34px auto 0;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;
+  padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));border-radius:24px 24px 0 0;background:var(--card);border:2px solid var(--line);border-bottom:0;box-shadow:0 -6px 20px var(--shadow)}
+.nav .mid{text-align:center;font:800 .95rem/1.2 var(--f-d);color:var(--ink2);min-width:0}
+.nav .mid b{display:block;color:var(--ink);font-size:1.05rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (max-width:520px){.nav .mid{display:none}.nav{grid-template-columns:1fr 1fr}.nav .btn{width:100%}}
+.hide{display:none!important}
+
+/* Certificate */
+.certbox{container-type:inline-size;width:100%;aspect-ratio:297/210;position:relative;background:#fffdf4;color:#24402f;border-radius:10px;overflow:hidden;
+  box-shadow:0 14px 34px var(--shadow);font-family:var(--f-d);line-height:1.1}
+.cfr{position:absolute;inset:1.7cqw;border:.9cqw solid #2a8f45;border-radius:2cqw;outline:.3cqw solid #e0b53a;outline-offset:-2cqw;pointer-events:none}
+.cstrip{position:absolute;left:2.6cqw;right:2.6cqw;bottom:2.6cqw;width:calc(100% - 5.2cqw);height:6.5cqw;object-fit:cover;object-position:50% 60%;border-radius:0 0 1.2cqw 1.2cqw;display:block}
+.cin{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6cqw 11cqw 10cqw;gap:1.1cqw}
+.cin .k{font-size:1.9cqw;letter-spacing:.35em;color:#2a8f45;font-weight:800;text-transform:uppercase}
+.cin h2{font-size:5.4cqw;font-weight:800;color:#1b6a34;letter-spacing:.02em;text-wrap:balance}
+.cin .t{font:700 2.05cqw/1.3 var(--f-b);color:#2f4a3a;max-width:70cqw}
+.cin .nm{font-size:6.6cqw;font-weight:800;color:#a85a10;padding:0 3cqw .5cqw;border-bottom:.45cqw solid #e0b53a;min-width:46cqw;max-width:82cqw;overflow-wrap:anywhere;line-height:1.05;margin-top:.8cqw}
+.sigrow{width:100%;display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:3cqw;margin-top:1.6cqw}
+.sigrow .b{display:grid;gap:.4cqw;justify-items:center;font-size:1.9cqw;color:#24402f}
+.sigrow .b .line{width:100%;max-width:30cqw;border-bottom:.3cqw solid #24402f;height:4.6cqw;display:flex;align-items:flex-end;justify-content:center;font-weight:800;font-size:2.4cqw;padding-bottom:.4cqw}
+.sigrow .b strong{font-size:2.15cqw;letter-spacing:.04em}
+.sigrow .b span{font:700 1.6cqw var(--f-b);color:#55705f}
+.sigrow .seal{width:11cqw;aspect-ratio:1;border-radius:50%;overflow:hidden;border:.8cqw solid #e8b32a;box-shadow:0 0 0 .4cqw #fff,0 .6cqw 1.2cqw rgba(0,0,0,.25);background:#fff}
+.sigrow .seal img{width:100%;height:100%;object-fit:cover;object-position:38% 30%;display:block}
+#printRoot{display:none}
+.hint{font-size:.95rem;color:var(--ink2)}
+
+/* Misc */
+.toast{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:60;background:#24402f;color:#fff;border-radius:14px;padding:10px 18px;font:800 1rem var(--f-d);max-width:92vw;text-align:center;box-shadow:0 10px 24px rgba(0,0,0,.35)}
+.bounce{animation:bounce .5s}
+@keyframes bounce{0%{transform:scale(.92)}60%{transform:scale(1.04)}100%{transform:scale(1)}}
+.float{animation:float 5s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-6px)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+@page{size:A4 landscape;margin:0}
+@media print{
+  html{padding:0!important}
+  html,body{background:#fff!important;margin:0!important;padding:0!important}
+  body::before{display:none!important}
+  body>*:not(#printRoot){display:none!important}
+  #printRoot{display:block!important;width:297mm;height:209mm;overflow:hidden;page-break-after:avoid;break-after:avoid}
+  #printRoot .certbox{width:297mm;height:209mm;aspect-ratio:auto;border-radius:0;box-shadow:none}
+  .ghost{display:none!important}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+/* Rimba */
+.rimba{position:relative;display:block;width:56px;height:56px;border-radius:50%;overflow:hidden;flex:none;background:var(--ok-bg);border:3px solid #fff;box-shadow:0 2px 6px var(--shadow)}
+.rimba img{width:100%;height:100%;object-fit:cover;display:block}
+.rimba b{display:none;width:100%;height:100%;place-items:center;font:800 1.5rem var(--f-d);background:var(--leaf);color:#fff}
+.rimba.none img{display:none}.rimba.none b{display:grid}
+.rsay{display:flex;gap:12px;align-items:center;padding:10px 16px;border-radius:20px;background:var(--card2);border:2px solid var(--line)}
+.rsay p{font:700 1.05rem/1.35 var(--f-b)}
+.msec{display:grid;gap:14px;margin-bottom:34px;scroll-margin-top:90px}
+/* Aktiviti padanan, susun ayat, isi tempat kosong */
+[data-drag]{touch-action:none;cursor:grab;-webkit-user-select:none;user-select:none}
+.mt{display:grid;gap:18px}
+.mcells{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr))}
+.mcell{display:grid;align-content:start;gap:8px;padding:10px;border-radius:20px;border:3px solid var(--line);background:var(--card);cursor:pointer;box-shadow:0 4px 0 var(--line);min-width:0}
+.mcell .lv{display:grid;place-items:center;min-height:40px}
+.mcell .mimg{width:100%;max-width:150px;aspect-ratio:4/5;object-fit:cover;border-radius:14px;display:block}
+.mcell .lv .mtx{font:800 1.15rem/1.3 var(--f-d);text-align:center}
+.slot{position:relative;min-height:64px;border:3px dashed var(--line);border-radius:14px;display:grid;place-items:center;padding:6px;background:var(--card2)}
+.slot .ph{font:700 .85rem/1.2 var(--f-b);color:var(--ink2);text-align:center}
+.slot .mtx{font:800 1rem/1.3 var(--f-d);text-align:center}
+.slot .mimg{width:84px;aspect-ratio:4/5;object-fit:cover;border-radius:10px;display:block}
+.mcell.over,.blank.over,.ansarea.over,.wbank.over{border-color:var(--water);background:var(--water-bg)}
+.mcell.sel,.mitem.sel{border-color:var(--water);box-shadow:0 0 0 4px color-mix(in srgb,var(--sun) 70%,transparent)}
+.mcell.ok{border-color:var(--ok);background:var(--ok-bg);cursor:default}
+.mcell.ok .slot{border-style:solid;border-color:var(--ok)}
+.mcell.bad,.mitem.bad{border-color:var(--bad);background:var(--bad-bg);animation:shake .4s}
+.mk{position:absolute;right:-8px;top:-10px;width:28px;height:28px;border-radius:50%;background:var(--ok);color:#fff;display:grid;place-items:center;border:2px solid #fff}
+.mk .ic{width:16px;height:16px}
+.mbank{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;padding:12px;border-radius:20px;background:var(--card2);border:2px dashed var(--line)}
+.mitem{border:3px solid var(--line);background:var(--card);border-radius:16px;padding:8px;color:var(--ink);box-shadow:0 4px 0 var(--line);min-height:56px;max-width:100%;font:inherit}
+.mitem .mimg{width:96px;aspect-ratio:4/5;object-fit:cover;border-radius:10px;display:block;pointer-events:none}
+.mitem .mtx{font:800 1.1rem/1.3 var(--f-d);display:block;text-align:left;pointer-events:none}
+.mitem.tx{flex:1 1 240px;max-width:420px}
+.mitem.used{visibility:hidden}
+.dragging{opacity:.35}
+.ghost{position:fixed;z-index:80;pointer-events:none;margin:0;transform:rotate(-3deg) scale(1.04);box-shadow:0 14px 26px rgba(0,0,0,.35)!important;opacity:.96}
+@keyframes shake{20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.ansarea{min-height:78px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:12px;border-radius:18px;border:3px dashed var(--line);background:var(--card2)}
+.ansarea .ph{color:var(--ink2);font:700 1rem var(--f-b)}
+.ansarea.right{border:3px solid var(--ok);background:var(--ok-bg)}
+.ansarea.wrong{border:3px solid var(--bad);background:var(--bad-bg)}
+.wbank{display:flex;flex-wrap:wrap;gap:10px;padding:12px;border-radius:18px;border:2px solid var(--line);min-height:76px}
+.wchip{font:800 1.35rem var(--f-d);padding:.45em .9em;min-height:56px;border-radius:14px;border:3px solid var(--water);background:var(--water-bg);color:var(--ink);box-shadow:0 4px 0 var(--water)}
+.wchip.used{visibility:hidden}
+.fillsent{font:800 clamp(1.4rem,4.2vw,2.1rem)/1.9 var(--f-d)}
+.blank{display:inline-block;min-width:7.5ch;min-height:1.6em;border-bottom:4px solid var(--water);border-radius:10px 10px 0 0;background:var(--water-bg);padding:0 .45em;text-align:center;line-height:1.5;color:var(--leaf-d);vertical-align:middle}
+.blank[role=button]{cursor:pointer}
+.blank.right,.tin.right{border-color:var(--ok);background:var(--ok-bg)}
+.blank.wrong,.tin.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.tin{font:800 inherit;font-family:var(--f-d);width:11ch;max-width:100%;min-height:1.6em;border:3px solid var(--water);border-radius:12px;padding:0 .4em;background:var(--card);color:var(--ink);text-align:center}
+.chips .opt[data-drag]{touch-action:none}
+</style>
+
+<header class="top" id="top"></header>
+<main class="wrap" id="view" tabindex="-1"></main>
+<nav class="nav hide" id="nav" aria-label="Navigasi halaman"></nav>
+<div id="printRoot" aria-hidden="true"></div>
+<div id="toast" class="toast hide" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+'use strict';
+/* ============ Ikon ============ */
+var I={
+ home:'<path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/>',
+ map:'<path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/>',
+ check:'<path d="M5 12.5l4.5 4.5L19 7"/>',
+ lock:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/>',
+ speaker:'<path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 010 7M19 6a8.5 8.5 0 010 12"/>',
+ back:'<path d="M15 5l-7 7 7 7"/>',
+ next:'<path d="M9 5l7 7-7 7"/>',
+ star:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z" fill="currentColor"/>',
+ reload:'<path d="M20 11a8 8 0 10-2.3 5.7"/><path d="M20 4v7h-7"/>',
+ print:'<path d="M7 9V3h10v6"/><rect x="4" y="9" width="16" height="8" rx="2"/><path d="M7 14h10v7H7z"/>',
+ edit:'<path d="M4 20h4L19 9l-4-4L4 16z"/>',
+ upload:'<path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v4h16v-4"/>',
+ user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',
+ leaf:'<path d="M5 19C5 9 11 4 20 4c0 9-5 15-15 15z"/><path d="M5 19L14 10"/>'
+};
+function ico(n){return '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+I[n]+'</svg>';}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function $(s,r){return (r||document).querySelector(s);}
+
+/* ============ Gambar sebenar (fail JPG, gaya kartun 3D) ============ */
+var IMG={
+ menanam:['v-menanam.jpg',695,866,'Aina menanam anak pokok ke dalam tanah, ditemani seekor arnab'],
+ menyiram:['v-menyiram.jpg',695,866,'Ali menyiram anak pokok dengan penyiram air'],
+ mengutip:['v-mengutip.jpg',695,866,'Aina mengutip botol plastik dan memasukkannya ke dalam beg kitar semula'],
+ menyapu:['v-menyapu.jpg',695,866,'Ali menyapu daun kering dengan penyapu'],
+ mengasingkan:['v-mengasingkan.jpg',695,866,'Ali memasukkan botol ke dalam tong kitar semula yang berlainan warna'],
+ mengitar_semula:['v-mengitar-semula.jpg',695,866,'Aina menuang sisa makanan ke dalam bekas kompos berlambang daun'],
+ membersihkan:['v-membersihkan.jpg',695,866,'Ali membersihkan sungai dengan penyauk sampah'],
+ memulihara:['v-memulihara.jpg',695,866,'Aina memberi lobak merah kepada seekor arnab di taman'],
+ terbang:['burung-terbang.jpg',840,471,'Seekor burung terbang di langit'],
+ pasif:['aina-menyiram.jpg',880,1100,'Aina menyiram anak pokok'],
+ hutan:['hutan.jpg',1120,630,'Hutan hijau dengan air terjun dan sungai yang jernih'],
+ kotor:['v-membersihkan.jpg',695,866,'Sampah di tepi sungai yang perlu dibersihkan'],
+ wira:['aina-ali.jpg',840,472,'Aina dan Ali, Penjaga Alam Cilik'],
+ meraikan:['taman.jpg',1600,900,'Murid-murid menjaga taman bersama-sama']
+};
+function art(k,cls){var m=IMG[k];return '<div class="art'+(m[2]>m[1]?' v':'')+(cls?' '+cls:'')+'"><img src="media/'+m[0]+'" width="'+m[1]+'" height="'+m[2]+'" alt="'+esc(m[3])+'" decoding="async" draggable="false"></div>';}
+function heroImg(){return '<div class="art float"><img src="media/hero.jpg" width="1600" height="900" alt="Aina dan Ali menyiram anak pokok dan mengutip sampah di tepi sungai hutan" decoding="async"></div>';}
+/* Rimba: letakkan fail media/rimba.png (burung hantu kecil berjambul daun). Jika tiada, huruf R dipaparkan. */
+function rimbaImg(){return '<span class="rimba"><img src="media/rimba.png" alt="Rimba, burung hantu penjaga hutan" draggable="false" onerror="this.parentNode.classList.add(\'none\')"><b aria-hidden="true">R</b></span>';}
+function rimbaSay(t){return '<div class="rsay">'+rimbaImg()+'<p><b>Rimba:</b> '+t+'</p></div>';}
+var BADGE={sebut:'memulihara',cari:'mengutip',aksi:'menyiram',trans:'menanam',tak:'terbang',aktif:'menyapu',pasif:'pasif',bina:'mengitar_semula',kuiz:'hutan'};
+function badgeHTML(id,on){var m=IMG[BADGE[id]];return '<span class="bdg'+(on?'':' off')+'"><img src="media/'+m[0]+'" alt="" draggable="false"></span>';}
+
+var NODES=[
+ {p:2,t:'Kisah Pengembaraan'},
+ {p:5,t:'Kenali Kata Kerja'},
+ {p:6,t:'Dengar dan Sebut',task:['sebut']},
+ {p:7,t:'Jom Nyanyi'},
+ {p:8,t:'Cari Kata Kerja',task:['cari','aksi']},
+ {p:9,t:'Jenis Kata Kerja',task:['trans','tak','aktif','pasif']},
+ {p:14,t:'Cabaran Akhir',task:['bina','kuiz']},
+ {p:15,t:'Sijil Penjaga Alam',cert:true},
+ {p:16,t:'Penutup'}
+];
+function nodeXY(i){return [i%2===0?330:150,118+i*118];}
+function certHTML(){
+ return '<div class="certbox"><div class="cfr"></div><img class="cstrip" src="media/jalur.jpg" alt="" draggable="false"><div class="cin"><div class="k">Bahasa Melayu · Tahun 3</div><h2>SIJIL PENJAGA ALAM CILIK</h2>'+
+ '<p class="t">Dengan sukacitanya, sijil ini dianugerahkan kepada</p><div class="nm">'+esc(state.name)+'</div>'+
+ '<p class="t">kerana telah berjaya meneroka dan menyelesaikan semua aktiviti pembelajaran dalam Pengembaraan Kata Kerja: Misi Penjaga Alam, Bahasa Melayu Tahun 3.</p>'+
+ '<div class="sigrow"><div class="b"><div class="line">02/11/2026</div><span>Tarikh</span></div><div class="seal"><img src="media/aina-ali.jpg" alt="" draggable="false"></div><div class="b"><div class="line"></div><strong>JOAN TIEW CHEE EN</strong><span>Guru</span></div></div></div></div>';
+}
+
+
+/* ============ Data pembelajaran ============ */
+var WORDS=[
+ {k:'menanam',w:'Menanam',s:'Aina menanam pokok.',m:'Meletakkan anak pokok ke dalam tanah supaya ia membesar.',by:'Aina'},
+ {k:'menyiram',w:'Menyiram',s:'Ali menyiram bunga.',m:'Mencurahkan air pada tumbuhan supaya tidak layu.'},
+ {k:'mengutip',w:'Mengutip',s:'Murid mengutip sampah.',m:'Mengambil sampah dari tanah dan memasukkannya ke dalam beg.'},
+ {k:'menyapu',w:'Menyapu',s:'Adik menyapu halaman.',m:'Membersihkan tanah atau lantai dengan penyapu.'},
+ {k:'mengasingkan',w:'Mengasingkan',s:'Ali mengasingkan sampah.',m:'Memisahkan sampah mengikut jenisnya, seperti kertas dan plastik.'},
+ {k:'mengitar_semula',w:'Mengitar semula',s:'Aina mengitar semula botol.',m:'Menjadikan barang lama sebagai barang baharu yang boleh dipakai.'},
+ {k:'membersihkan',w:'Membersihkan',s:'Ali membersihkan sungai.',m:'Menjadikan sesuatu bersih dan tidak kotor.'},
+ {k:'memulihara',w:'Memulihara',s:'Kita memulihara hutan.',m:'Menjaga alam supaya tidak rosak dan tidak hilang.'}
+];
+
+var TASKS=[
+ {id:'sebut',p:6,t:'Dengar dan Sebut'},{id:'cari',p:8,t:'Cari Kata Kerja'},{id:'aksi',p:8,t:'Aksi Penjaga Alam'},
+ {id:'trans',p:10,t:'Kata Kerja Transitif'},{id:'tak',p:11,t:'Kata Kerja Tak Transitif'},
+ {id:'aktif',p:12,t:'Kata Kerja Aktif'},{id:'pasif',p:13,t:'Kata Kerja Pasif'},
+ {id:'bina',p:14,t:'Cabaran Bina Ayat'},{id:'kuiz',p:14,t:'Cabaran Akhir'}
+];
+
+function Q(o){return o;}
+var EXS={
+ cari:{title:'Cari Kata Kerja',qs:[
+  Q({g:'Padankan gambar dengan kata kerja',art:'menanam',p:'Apakah perbuatan dalam gambar ini?',o:['menanam','menyapu','menyiram'],a:0,w:'Aina menanam anak pokok di dalam tanah.'}),
+  Q({g:'Padankan gambar dengan kata kerja',art:'menyiram',p:'Apakah perbuatan dalam gambar ini?',o:['mengutip','menyiram','menanam'],a:1,w:'Ali menyiram bunga dengan penyiram air.'}),
+  Q({g:'Padankan gambar dengan kata kerja',art:'terbang',p:'Apakah perbuatan burung dalam gambar ini?',o:['terbang','berlari','menyapu'],a:0,w:'Burung terbang di langit. Terbang ialah kata kerja.'}),
+  Q({g:'Padankan gambar dengan kata kerja',art:'mengutip',p:'Apakah perbuatan dalam gambar ini?',o:['menyapu','menanam','mengutip'],a:2,w:'Aina mengutip sampah dan memasukkannya ke dalam beg.'}),
+  Q({t:'match',g:'Padankan gambar dengan kata kerja',p:'Padankan setiap gambar dengan kata kerja yang betul.',w:'Kamu sudah mengenal pasti empat kata kerja daripada gambar.',pairs:[
+   {l:{img:'menanam'},r:{txt:'menanam'}},{l:{img:'menyiram'},r:{txt:'menyiram'}},{l:{img:'mengutip'},r:{txt:'mengutip'}},{l:{img:'menyapu'},r:{txt:'menyapu'}}]}),
+  Q({t:'match',g:'Padankan gambar dengan kata kerja',p:'Padankan setiap gambar dengan kata kerja yang betul.',w:'Hebat! Empat lagi kata kerja penjaga alam sudah dikenali.',pairs:[
+   {l:{img:'mengasingkan'},r:{txt:'mengasingkan'}},{l:{img:'mengitar_semula'},r:{txt:'mengitar semula'}},{l:{img:'membersihkan'},r:{txt:'membersihkan'}},{l:{img:'memulihara'},r:{txt:'memulihara'}}]}),
+  Q({g:'Pilih kata kerja berdasarkan situasi',p:'Anak pokok itu hampir layu kerana kering. Apakah yang perlu kita lakukan?',o:['menyiram','menyapu','mengasingkan'],a:0,w:'Kita menyiram anak pokok supaya ia segar semula.'}),
+  Q({g:'Pilih kata kerja berdasarkan situasi',p:'Banyak sampah berselerak di taman. Apakah yang patut kita lakukan?',o:['menanam','mengutip','menyiram'],a:1,w:'Kita mengutip sampah supaya taman bersih.'}),
+  Q({g:'Pilih kata kerja berdasarkan situasi',p:'Sampah di rumah bercampur-campur. Kita perlu ... sampah mengikut jenis.',o:['mengasingkan','menyiram','menanam'],a:0,w:'Mengasingkan bermaksud memisahkan sampah mengikut jenisnya.'}),
+  Q({g:'Cari kata kerja dalam ayat',p:'Sentuh kata kerja dalam ayat ini.',chips:['Aina','menanam','pokok','bunga'],a:1,w:'Menanam menunjukkan perbuatan Aina.'}),
+  Q({g:'Cari kata kerja dalam ayat',p:'Sentuh kata kerja dalam ayat ini.',chips:['Ali','menyapu','halaman','sekolah'],a:1,w:'Menyapu menunjukkan perbuatan Ali.'}),
+  Q({g:'Cari kata kerja dalam ayat',p:'Sentuh kata kerja dalam ayat ini.',chips:['Burung','terbang','di','langit'],a:1,w:'Terbang menunjukkan perbuatan burung.'}),
+  Q({g:'Cari kata kerja dalam ayat',p:'Sentuh kata kerja dalam ayat ini.',chips:['Kami','mengitar semula','botol','plastik'],a:1,w:'Mengitar semula ialah kata kerja. Ia terdiri daripada dua perkataan.'})
+ ]},
+ trans:{title:'Latihan Kata Kerja Transitif',qs:[
+  Q({p:'Ayat manakah mengandungi kata kerja transitif?',o:['Ali mengutip sampah.','Burung terbang.','Adik berlari.'],a:0,w:'Mengutip memerlukan objek, iaitu sampah.'}),
+  Q({p:'Aina menyiram ... . Perkataan manakah ialah objek yang melengkapkan ayat?',o:['pokok','laju','di taman'],a:0,w:'Menyiram memerlukan objek. Aina menyiram pokok.'}),
+  Q({p:'Sentuh objek dalam ayat ini: Murid menyapu halaman.',chips:['Murid','menyapu','halaman'],a:2,w:'Halaman ialah objek. Halaman disapu oleh murid.'}),
+  Q({p:'Kata kerja transitif memerlukan ...',o:['objek','warna','bunyi'],a:0,w:'Kata kerja transitif memerlukan objek untuk melengkapkan maksud ayat.'})
+ ]},
+ tak:{title:'Latihan Kata Kerja Tak Transitif',qs:[
+  Q({p:'Ayat manakah mengandungi kata kerja tak transitif?',o:['Aina menanam bunga.','Burung terbang.','Ali mengutip sampah.'],a:1,w:'Terbang tidak memerlukan objek. Ayat ini sudah lengkap.'}),
+  Q({p:'Sentuh kata kerja dalam ayat ini: Adik berlari di taman.',chips:['Adik','berlari','di taman'],a:1,w:'Berlari ialah kata kerja tak transitif. Di taman ialah tempat, bukan objek.'}),
+  Q({p:'Adakah ayat "Bunga mekar." memerlukan objek?',o:['Tidak, ayat ini sudah lengkap.','Ya, ayat ini perlu objek.'],a:0,w:'Mekar ialah kata kerja tak transitif. Ia tidak memerlukan objek.'}),
+  Q({p:'Kata kerja manakah ialah kata kerja tak transitif?',o:['menanam','berlari','mengutip'],a:1,w:'Berlari tidak memerlukan objek. Menanam dan mengutip memerlukan objek.'})
+ ]},
+ aktif:{title:'Latihan Kata Kerja Aktif',qs:[
+  Q({p:'Ayat manakah ialah ayat aktif?',o:['Aina menyiram pokok.','Pokok itu disiram oleh Aina.'],a:0,w:'Dalam ayat aktif, subjek melakukan perbuatan. Aina yang menyiram.'}),
+  Q({p:'Sentuh pembuat perbuatan dalam ayat ini: Murid membersihkan taman.',chips:['Murid','membersihkan','taman'],a:0,w:'Murid ialah subjek yang melakukan perbuatan membersihkan.'}),
+  Q({p:'Ali ... sampah di sungai. Perkataan manakah melengkapkan ayat aktif?',o:['mengutip','dikutip','disapu'],a:0,w:'Ayat aktif menggunakan kata kerja berawalan meN-, seperti mengutip.'}),
+  Q({p:'Dalam ayat aktif, siapakah yang melakukan perbuatan?',o:['Subjek','Benda yang menerima perbuatan'],a:0,w:'Dalam ayat aktif, subjek melakukan perbuatan.'})
+ ]},
+ pasif:{title:'Latihan Kata Kerja Pasif',qs:[
+  Q({p:'Ayat manakah ialah ayat pasif?',o:['Aina menyiram pokok.','Pokok itu disiram oleh Aina.'],a:1,w:'Dalam ayat pasif, penekanan diberi kepada pokok yang menerima perbuatan.'}),
+  Q({p:'Dalam ayat "Sampah itu dikutip oleh murid.", apakah yang menerima perbuatan?',o:['Sampah itu','murid','dikutip'],a:0,w:'Sampah itu menerima perbuatan mengutip.'}),
+  Q({p:'Ubah ayat "Aina menanam pokok." kepada ayat pasif.',o:['Pokok itu ditanam oleh Aina.','Pokok itu menanam Aina.','Aina itu ditanam oleh pokok.'],a:0,w:'Pokok menerima perbuatan, jadi kata kerja menjadi ditanam.'}),
+  Q({p:'Sentuh kata kerja pasif dalam ayat ini: Taman itu dibersihkan oleh Ali.',chips:['Taman itu','dibersihkan','oleh Ali'],a:1,w:'Dibersihkan ialah kata kerja pasif. Ia berawalan di-.'})
+ ]},
+ kuiz:{title:'Cabaran Akhir',qs:[
+  Q({t:'match',g:'Padankan gambar dengan kata kerja',p:'Selamatkan hutan! Padankan setiap gambar dengan kata kerja yang betul.',w:'Kamu mengenal empat kata kerja penjaga alam.',pairs:[
+   {l:{img:'membersihkan'},r:{txt:'membersihkan'}},{l:{img:'memulihara'},r:{txt:'memulihara'}},{l:{img:'mengitar_semula'},r:{txt:'mengitar semula'}},{l:{img:'mengasingkan'},r:{txt:'mengasingkan'}}]}),
+  Q({art:'menyiram',p:'Apakah perbuatan dalam gambar ini?',o:['menyiram','menanam','menyapu'],a:0,w:'Ali menyiram bunga.'}),
+  Q({p:'Apakah maksud kata kerja?',o:['Perkataan yang menunjukkan perbuatan','Perkataan yang menunjukkan nama benda','Perkataan yang menunjukkan warna'],a:0,w:'Kata kerja ialah perkataan yang menunjukkan perbuatan.'}),
+  Q({p:'Sentuh kata kerja dalam ayat ini.',chips:['Murid','mengutip','sampah','di padang'],a:1,w:'Mengutip menunjukkan perbuatan murid.'}),
+  Q({p:'Adik berlari di taman. Apakah perbuatan adik itu?',o:['berlari','menyiram','menanam'],a:0,w:'Adik berlari di taman.'}),
+  Q({p:'Ayat manakah mengandungi kata kerja transitif?',o:['Burung terbang.','Ali mengutip sampah.','Adik berlari.'],a:1,w:'Mengutip memerlukan objek, iaitu sampah.'}),
+  Q({p:'Ayat manakah mengandungi kata kerja tak transitif?',o:['Aina menanam pokok.','Murid menyapu halaman.','Bunga mekar.'],a:2,w:'Mekar tidak memerlukan objek.'}),
+  Q({p:'Ayat manakah ialah ayat aktif?',o:['Pokok itu disiram oleh Aina.','Murid membersihkan taman.','Sampah itu dikutip oleh Ali.'],a:1,w:'Dalam ayat aktif, subjek melakukan perbuatan.'}),
+  Q({p:'Ayat manakah ialah ayat pasif?',o:['Aina menanam bunga.','Bunga itu ditanam oleh Aina.','Ali menyapu halaman.'],a:1,w:'Bunga menerima perbuatan, dan kata kerjanya berawalan di-.'}),
+  Q({p:'Botol plastik lama boleh dijadikan barang baharu. Apakah yang kita lakukan pada botol itu?',o:['mengitar semula','menyapu','menanam'],a:0,w:'Mengitar semula ialah menjadikan barang lama sebagai barang baharu.'}),
+  Q({art:'mengasingkan',p:'Apakah perbuatan dalam gambar ini?',o:['mengasingkan','membersihkan','memulihara'],a:0,w:'Ali mengasingkan sampah ke dalam tong yang betul.'})
+  ,Q({t:'fill',g:'Isi tempat kosong',p:'Pilih kata kerja yang melengkapkan ayat.',s:'Kita perlu ___ hutan supaya tidak rosak.',o:['memulihara','menyapu','menyiram'],a:0,w:'Memulihara bermaksud menjaga alam supaya tidak rosak dan tidak hilang.'})
+ ]}
+ ,aksi:{title:'Aksi Penjaga Alam',qs:[
+  Q({t:'match',g:'Padankan ayat dengan gambar',p:'Padankan setiap ayat dengan gambar perbuatan yang betul.',w:'Ayat dan gambar sudah dipadankan dengan betul.',pairs:[
+   {l:{txt:'Aina menanam anak pokok.'},r:{img:'menanam'}},{l:{txt:'Ali menyiram pokok.'},r:{img:'menyiram'}},{l:{txt:'Aina mengutip botol plastik.'},r:{img:'mengutip'}},{l:{txt:'Ali menyapu daun kering.'},r:{img:'menyapu'}}]}),
+  Q({t:'match',g:'Padankan ayat dengan gambar',p:'Padankan setiap ayat dengan gambar perbuatan yang betul.',w:'Kamu pandai membaca ayat dan melihat gambar.',pairs:[
+   {l:{txt:'Ali mengasingkan botol ke dalam tong.'},r:{img:'mengasingkan'}},{l:{txt:'Aina mengitar semula sisa makanan.'},r:{img:'mengitar_semula'}},{l:{txt:'Ali membersihkan sungai.'},r:{img:'membersihkan'}},{l:{txt:'Aina memulihara haiwan hutan.'},r:{img:'memulihara'}}]}),
+  Q({t:'match',g:'Padankan kata kerja dengan maksud perbuatan',p:'Padankan setiap kata kerja dengan maksudnya.',w:'Kamu faham maksud empat kata kerja ini.',pairs:[
+   {l:{txt:'Menanam'},r:{txt:'Meletakkan anak pokok ke dalam tanah supaya ia membesar.'}},{l:{txt:'Menyiram'},r:{txt:'Mencurahkan air pada tumbuhan supaya tidak layu.'}},{l:{txt:'Mengutip'},r:{txt:'Mengambil sampah dari tanah dan memasukkannya ke dalam beg.'}},{l:{txt:'Menyapu'},r:{txt:'Membersihkan tanah atau lantai dengan penyapu.'}}]}),
+  Q({t:'match',g:'Padankan kata kerja dengan maksud perbuatan',p:'Padankan setiap kata kerja dengan maksudnya.',w:'Kamu faham maksud empat lagi kata kerja.',pairs:[
+   {l:{txt:'Mengasingkan'},r:{txt:'Memisahkan sampah mengikut jenisnya, seperti kertas dan plastik.'}},{l:{txt:'Mengitar semula'},r:{txt:'Menjadikan barang lama sebagai barang baharu yang boleh dipakai.'}},{l:{txt:'Membersihkan'},r:{txt:'Menjadikan sesuatu bersih dan tidak kotor.'}},{l:{txt:'Memulihara'},r:{txt:'Menjaga alam supaya tidak rosak dan tidak hilang.'}}]})
+ ]}
+ ,bina:{title:'Cabaran Bina Ayat',qs:[
+  Q({t:'fill',g:'Isi tempat kosong',p:'Pilih kata kerja yang betul.',s:'Murid ___ sampah ke dalam beg.',o:['mengutip','menanam','menyiram'],a:0,w:'Mengutip ialah mengambil sampah dari tanah.'}),
+  Q({t:'fill',g:'Isi tempat kosong',p:'Pilih kata kerja yang betul.',s:'Kami ___ anak pokok di dalam tanah.',o:['menanam','mengutip','menyapu'],a:0,w:'Menanam ialah meletakkan anak pokok ke dalam tanah.'}),
+  Q({t:'type',g:'Isi tempat kosong dengan menaip',p:'Taip kata kerja yang betul. Petunjuk: ia berkaitan dengan air.',s:'Ali ___ bunga dengan penyiram air.',ans:'menyiram',w:'Ali menyiram bunga dengan penyiram air.'}),
+  Q({t:'order',p:'Susun perkataan menjadi ayat yang betul.',words:['Aina','menanam','pokok','di','taman'],w:'Aina menanam pokok di taman.'}),
+  Q({t:'order',p:'Susun perkataan menjadi ayat yang betul.',words:['Ali','mengutip','sampah','di','sungai'],w:'Ali mengutip sampah di sungai.'}),
+  Q({t:'order',p:'Susun perkataan menjadi ayat pasif yang betul.',words:['Pokok','itu','disiram','oleh','Aina'],w:'Pokok itu disiram oleh Aina.'}),
+  Q({t:'fill',g:'Lengkapkan ayat berdasarkan gambar',art:'menyapu',p:'Lihat gambar. Pilih kata kerja untuk melengkapkan ayat.',s:'Ali sedang ___ daun kering.',o:['menyapu','menyiram','menanam'],a:0,w:'Gambar menunjukkan Ali sedang menyapu daun kering.'}),
+  Q({t:'fill',g:'Lengkapkan ayat berdasarkan gambar',art:'mengasingkan',p:'Lihat gambar. Pilih kata kerja untuk melengkapkan ayat.',s:'Ali sedang ___ botol ke dalam tong.',o:['mengasingkan','menyiram','menanam'],a:0,w:'Gambar menunjukkan Ali mengasingkan botol ke dalam tong yang berbeza.'}),
+  Q({t:'type',g:'Lengkapkan ayat berdasarkan gambar',art:'membersihkan',p:'Lihat gambar. Taip kata kerja yang betul.',s:'Ali sedang ___ sungai.',ans:'membersihkan',w:'Gambar menunjukkan Ali sedang membersihkan sungai.'})
+ ]}
+};
+
+
+/* ============ Keadaan ============ */
+var LS='pkpa-v1';
+var state={name:'',done:{},ex:{},ticks:{}};
+try{var raw=localStorage.getItem(LS);if(raw){var o=JSON.parse(raw);if(o&&typeof o==='object'){state.name=typeof o.name==='string'?o.name:'';state.done=o.done||{};state.ex=o.ex||{};state.ticks=o.ticks||{};}}}catch(e){}
+function save(){try{localStorage.setItem(LS,JSON.stringify(state));}catch(e){}}
+function doneCount(){return TASKS.filter(function(t){return state.done[t.id];}).length;}
+function allDone(){return doneCount()===TASKS.length;}
+function pendingTasks(){return TASKS.filter(function(t){return !state.done[t.id];});}
+
+/* ============ Audio ============ */
+var AKEYS=[];WORDS.forEach(function(w){AKEYS.push(w.k);AKEYS.push('ayat_'+w.k);});
+var SONG='jom_jaga_alam';
+var AUD={url:{},st:{}};
+function audioReady(k){return !!AUD.url[k];}
+function nrm(n){return n.toLowerCase().replace(/\.[a-z0-9]+$/,'').replace(/[\s\-]+/g,'_');}
+var DB={
+ open:function(){return new Promise(function(res,rej){try{var r=indexedDB.open('pkpa-audio',1);r.onupgradeneeded=function(){r.result.createObjectStore('f');};r.onsuccess=function(){res(r.result);};r.onerror=function(){rej(r.error);};}catch(e){rej(e);}});},
+ put:function(k,b){return DB.open().then(function(d){return new Promise(function(res,rej){var t=d.transaction('f','readwrite');t.objectStore('f').put(b,k);t.oncomplete=res;t.onerror=function(){rej(t.error);};});});},
+ all:function(){return DB.open().then(function(d){return new Promise(function(res,rej){var out={},t=d.transaction('f','readonly'),c=t.objectStore('f').openCursor();c.onsuccess=function(){var cur=c.result;if(cur){out[cur.key]=cur.value;cur.continue();}else res(out);};c.onerror=function(){rej(c.error);};});});},
+ clear:function(){return DB.open().then(function(d){return new Promise(function(res,rej){var t=d.transaction('f','readwrite');t.objectStore('f').clear();t.oncomplete=res;t.onerror=function(){rej(t.error);};});});}
+};
+function probe(k){return new Promise(function(r){var a=new Audio(),done=false;function fin(ok){if(done)return;done=true;a.onerror=null;a.onloadedmetadata=null;r(ok);}a.preload='metadata';a.onloadedmetadata=function(){fin(true);};a.onerror=function(){fin(false);};setTimeout(function(){fin(false);},6000);a.src='audio/'+k+'.mp3';});}
+function initAudio(){
+ AKEYS.concat([SONG]).forEach(function(k){AUD.st[k]='checking';});
+ var userFirst=DB.all().catch(function(){return {};});
+ userFirst.then(function(blobs){
+  Object.keys(blobs).forEach(function(k){try{AUD.url[k]=URL.createObjectURL(blobs[k]);AUD.st[k]='ready';AUD.user=AUD.user||{};AUD.user[k]=true;}catch(e){}});
+  refreshAudio();
+  return Promise.all(AKEYS.concat([SONG]).filter(function(k){return !AUD.url[k];}).map(function(k){return probe(k).then(function(ok){if(ok){AUD.url[k]='audio/'+k+'.mp3';AUD.st[k]='ready';}else AUD.st[k]='missing';refreshAudio();});}));
+ });
+}
+var player=new Audio(),curBtn=null;
+player.onended=function(){if(curBtn)curBtn.classList.remove('playing');};
+function stopAudio(){try{player.pause();}catch(e){}if(curBtn)curBtn.classList.remove('playing');var v=document.getElementById('songVid');if(v)try{v.pause();}catch(e){}}
+function playKey(k,btn){
+ var u=AUD.url[k];if(!u)return;stopAudio();player.src=u;curBtn=btn;btn.classList.add('playing');
+ var pr=player.play();if(pr&&pr.catch)pr.catch(function(){btn.classList.remove('playing');toast('Audio tidak dapat dimainkan. Semak fail MP3.');});
+}
+function btnLabel(k,kind){var st=AUD.st[k];if(st==='ready')return kind==='w'?'Dengar Perkataan':'Dengar Ayat';if(st==='checking')return 'Memeriksa audio...';return 'Audio belum disediakan';}
+function refreshAudio(){
+ document.querySelectorAll('[data-ak]').forEach(function(b){var k=b.getAttribute('data-ak'),kind=b.getAttribute('data-kind');var ok=AUD.st[k]==='ready';b.disabled=!ok;var s=b.querySelector('.tx');if(s)s.textContent=btnLabel(k,kind);b.setAttribute('aria-label',btnLabel(k,kind)+(b.getAttribute('data-word')?': '+b.getAttribute('data-word'):''));});
+ document.querySelectorAll('[data-pill]').forEach(function(p){var k=p.getAttribute('data-pill'),ok=AUD.st[k]==='ready';p.classList.toggle('ok',ok);var t=p.querySelector('.st');if(t)t.textContent=ok?(AUD.user&&AUD.user[k]?'sedia (dipilih)':'sedia'):(AUD.st[k]==='checking'?'memeriksa':'belum ada');});
+ var c=$('#audCount');if(c){c.textContent=AKEYS.filter(function(k){return AUD.st[k]==='ready';}).length+' / 16 fail audio perkataan dan ayat sedia';}
+ var sb=$('#songBox');if(sb)sb.innerHTML=songBoxHTML();
+}
+function songBoxHTML(){
+ var st=AUD.st[SONG];
+ var inp='<label class="btn alt sm filebtn">'+ico('upload')+' Pilih rakaman lagu (MP3)<input type="file" id="songFile" accept="audio/*,.mp3" aria-label="Pilih rakaman lagu MP3"></label>';
+ if(st==='ready')return '<div class="stack"><audio controls preload="none" src="'+AUD.url[SONG]+'" aria-label="Rakaman lagu Jom Jaga Alam"></audio><div class="row">'+inp+'<span class="hint">'+(AUD.user&&AUD.user[SONG]?'Rakaman dipilih daripada peranti ini.':'Rakaman dimuatkan daripada audio/'+SONG+'.mp3')+'</span></div></div>';
+ return '<div class="stack"><div class="note warn">'+(st==='checking'?'Memeriksa rakaman lagu...':'Rakaman lagu belum disediakan. Pilih fail MP3 sendiri di bawah atau letak fail <code>audio/'+SONG+'.mp3</code> bersama laman web.')+'</div><div>'+inp+'</div></div>';
+}
+function handleFiles(files){
+ var ok=0,bad=[];var list=Array.prototype.slice.call(files);var jobs=[];
+ list.forEach(function(f){
+  var k=nrm(f.name);
+  if(AKEYS.indexOf(k)<0&&k!==SONG){ if(list.length===1&&$('#songFile')&&document.activeElement===$('#songFile')){k=SONG;} else {bad.push(f.name);return;} }
+  try{AUD.url[k]=URL.createObjectURL(f);AUD.st[k]='ready';AUD.user=AUD.user||{};AUD.user[k]=true;ok++;jobs.push(DB.put(k,f).catch(function(){}));}catch(e){bad.push(f.name);}
+ });
+ refreshAudio();
+ var m=ok+' fail audio disambungkan.'+(bad.length?' Nama tidak dikenali: '+bad.join(', ')+'.':'');
+ var box=$('#loadMsg');if(box)box.textContent=m;toast(ok?ok+' fail audio disambungkan':'Tiada fail yang sepadan. Semak nama fail.');
+}
+
+/* ============ Halaman ============ */
+function sentence(parts){return '<div class="sent">'+parts.map(function(p){var lab=p[2]!==undefined?p[2]:{s:'subjek',k:'kata kerja',o:'objek',n:''}[p[1]];return '<span class="part '+p[1]+'">'+(lab?'<small>'+lab+'</small>':'')+esc(p[0])+'</span>';}).join('')+'</div>';}
+function msec(n,t,say,id){return '<section class="msec" aria-label="Misi '+n+': '+t+'"><h2>Misi '+n+': '+t+'</h2>'+rimbaSay(say)+exBox(id)+'</section>';}
+function exBox(id){return '<div class="card ex" data-exbox="'+id+'">'+exHTML(id)+'</div>';}
+
+var PAGES={};
+PAGES[1]={t:'Halaman Pembukaan',html:function(){
+ var has=!!state.name;
+ return '<section class="p1"><div class="p1-art">'+heroImg()+'</div><div class="p1-body">'+
+ '<span class="eyebrow">Bahasa Melayu · Tahun 3</span><h1>Pengembaraan Kata Kerja: Misi Penjaga Alam</h1>'+
+ '<p class="lead">Hutan kita perlukan bantuan! Ikut Aina dan Ali, kenali kata kerja dan jaga alam sekitar bersama-sama.</p>'+
+ '<form id="loginForm" class="field" novalidate><label for="nama">Nama Penjaga Alam Cilik</label>'+
+ '<input id="nama" name="nama" type="text" maxlength="30" autocomplete="off" placeholder="Taip nama kamu di sini" value="'+esc(state.name)+'" aria-describedby="nameErr">'+
+ '<div class="err" id="nameErr" role="alert"></div>'+
+ '<div class="row"><button class="btn big" type="submit">MULA PENGEMBARAAN</button>'+(has&&doneCount()>0?'<button class="btn alt" type="button" data-act="go" data-p="3">'+ico('map')+' Sambung di Peta</button>':'')+'</div></form>'+
+ '<ul class="mission"><li>'+ico('leaf')+'<span>Dengar dan sebut kata kerja alam sekitar.</span></li><li>'+ico('leaf')+'<span>Selesaikan latihan dan cabaran akhir.</span></li><li>'+ico('leaf')+'<span>Dapatkan Sijil Penjaga Alam Cilik yang boleh dicetak.</span></li></ul>'+
+ '</div></section>';
+}};
+PAGES[2]={t:'Kisah Pengembaraan',html:function(){
+ var n=esc(state.name);
+ var P=[['hutan','Hutan yang indah','Di Hutan Hijau, pokok yang tinggi, bunga yang berwarna-warni dan sungai yang jernih menjadi rumah kepada burung, ikan dan arnab.'],
+  ['kotor','Alam sedang bersedih','Hari ini ada sampah di tepi sungai. Anak pokok sudah layu dan haiwan berasa sedih.'],
+  ['wira','Penjaga Alam Cilik datang','Aina dan Ali ialah Penjaga Alam Cilik. Mereka perlukan bantuan kamu, '+n+'!'],
+  ['meraikan','Misi kata kerja','Dalam setiap misi, kamu akan belajar kata kerja seperti menanam, menyiram dan mengutip. Kata kerja ialah perkataan yang menunjukkan perbuatan. Jom selamatkan alam!']];
+ return '<div class="pagehead"><span class="eyebrow">Halaman 2</span><h1>Kisah Pengembaraan</h1></div><div class="stack">'+
+ P.map(function(p){return '<div class="story-row card">'+art(p[0])+'<div class="tx"><h2>'+p[1]+'</h2><p class="lead">'+p[2]+'</p></div></div>';}).join('')+
+ '<div class="row" style="justify-content:center"><button class="btn big" data-act="go" data-p="3">'+ico('map')+' Lihat Peta Pengembaraan</button></div></div>';
+}};
+PAGES[3]={t:'Peta Pengembaraan',html:function(){
+ var nodes=NODES.map(function(n,i){var xy=nodeXY(i);var done=n.task&&n.task.every(function(t){return state.done[t];});
+  var lock=n.cert&&!allDone();
+  return '<button class="node'+(lock?' lock':'')+'" style="left:'+(xy[0]/6)+'%;top:'+(xy[1]/11)+'%" data-act="go" data-p="'+n.p+'" aria-label="Stesen '+(i+1)+': '+n.t+(done?' (selesai)':'')+(lock?' (terkunci)':'')+'"><span class="no">'+(lock?ico('lock'):(i+1))+'</span><span>'+n.t+'</span>'+(done||(n.cert&&allDone())?'<span class="tick">'+ico('check')+'</span>':'')+'</button>';}).join('');
+ var bio='<button class="node info" style="left:'+(130/6)+'%;top:'+(52/11)+'%" data-act="go" data-p="4" aria-label="Biodata Guru"><span class="no">'+ico('user')+'</span><span>Biodata Guru</span></button>';
+ return '<div class="pagehead"><span class="eyebrow">Halaman 3</span><h1>Peta Pengembaraan</h1><p>Sentuh papan tanda untuk pergi ke stesen. Tanda hijau bermaksud aktiviti sudah selesai. Kemajuan: '+doneCount()+' daripada '+TASKS.length+' misi.</p></div>'+
+ '<div class="mapwrap"><img class="mapbg" src="media/peta.jpg" width="980" height="1800" alt="Peta pengembaraan hutan dengan sungai, jambatan dan air terjun" decoding="async">'+bio+nodes+'</div>'+
+ '<section class="card soft stack" style="margin-top:24px"><h3>Lencana Penjaga Alam</h3><div class="bdgrow">'+TASKS.map(function(t){return '<figure class="bdgf">'+badgeHTML(t.id,!!state.done[t.id])+'<figcaption>'+t.t+'</figcaption></figure>';}).join('')+'</div></section>'+
+ '<div class="legend"><span><span class="node" style="position:static;transform:none;padding:3px;border-radius:50%;box-shadow:none;border-width:2px"><span class="tick" style="position:static;width:24px;height:24px;border-width:2px">'+ico('check')+'</span></span> Aktiviti selesai</span><span>'+ico('lock')+' Sijil dibuka selepas semua misi selesai</span></div>';
+}};
+PAGES[4]={t:'Biodata Guru',html:function(){
+ var R=[['Nama','JOAN TIEW CHEE EN'],['Angka Giliran','2026242440148'],['Program','PISMP'],['Ambilan','Ogos 2026'],['Unit','C6'],['Kod Kursus','EDUP6023'],['Nama Pensyarah','Dr. Theinmoli A/P Munusamy']];
+ return '<div class="pagehead"><span class="eyebrow">Halaman 4</span><h1>Biodata Guru</h1></div><div class="bio-grid"><div class="card"><dl class="bio">'+
+ R.map(function(r){return '<div><dt>'+r[0]+'</dt><dd>'+esc(r[1])+'</dd></div>';}).join('')+'</dl></div><figure class="portrait"><img src="media/potret-guru.jpg" width="835" height="894" alt="Gambar potret guru" decoding="async"></figure></div>';
+}};
+PAGES[5]={t:'Kenali Dunia Kata Kerja',html:function(){
+ return '<div class="pagehead"><span class="eyebrow">Halaman 5</span><h1>Kenali Dunia Kata Kerja</h1></div><div class="stack">'+
+ '<div class="card two" style="align-items:center"><div class="stack"><h2>Apakah kata kerja?</h2><p class="lead"><b>Kata kerja</b> ialah perkataan yang menunjukkan perbuatan atau tindakan.</p>'+sentence([['Aina','s'],['menanam','k'],['pokok','o']])+'<p>Tanya diri kamu: <b>Apakah yang dilakukan?</b> Jawapannya ialah kata kerja.</p></div>'+art('menanam')+'</div>'+
+ '<h2>Lapan kata kerja penjaga alam</h2><div class="grid">'+
+ WORDS.map(function(w){return '<div class="card vcard">'+art(w.k)+'<div class="w">'+w.w+'</div><p class="m">'+w.m+'</p></div>';}).join('')+'</div></div>';
+}};
+PAGES[6]={t:'Dengar dan Sebut',html:function(){
+ var cards=WORDS.map(function(w,i){var tk=!!state.ticks[w.k];
+  return '<div class="card wcard">'+art(w.k)+'<div class="w">'+w.w+'</div><div class="s">'+esc(w.s)+'</div>'+
+  '<button class="aud wd" data-act="play" data-ak="'+w.k+'" data-kind="w" data-word="'+w.w+'" disabled>'+ico('speaker')+'<span class="tx">'+btnLabel(w.k,'w')+'</span></button>'+
+  '<button class="aud y" data-act="play" data-ak="ayat_'+w.k+'" data-kind="s" data-word="'+esc(w.s)+'" disabled>'+ico('speaker')+'<span class="tx">'+btnLabel('ayat_'+w.k,'s')+'</span></button>'+
+  '<button class="tickbtn" data-act="tick" data-k="'+w.k+'" aria-pressed="'+tk+'"><span class="bx">'+ico('check')+'</span>Saya sudah sebut</button></div>';}).join('');
+ var n=WORDS.filter(function(w){return state.ticks[w.k];}).length;
+ var pills='<ul class="pills">'+AKEYS.map(function(k){return '<li class="pill" data-pill="'+k+'"><span class="d"></span><span><code>'+k+'.mp3</code> <span class="st">memeriksa</span></span></li>';}).join('')+'</ul>';
+ return '<div class="pagehead"><span class="eyebrow">Halaman 6</span><h1>Dengar dan Sebut</h1><p>Tekan butang biru untuk mendengar perkataan. Tekan butang jingga untuk mendengar ayat. Sebut dengan kuat, kemudian tandakan "Saya sudah sebut".</p></div><div class="stack">'+
+ '<details class="tch"><summary>Untuk guru: sambungkan 16 fail MP3 anda</summary><div class="in">'+
+ '<p>Laman web ini tidak membawa suara automatik komputer. Ia hanya memainkan rakaman MP3 anda. Butang kekal tidak aktif sehingga fail yang betul dijumpai.</p>'+
+ '<p><b>Cara 1, untuk ujian pada peranti ini:</b> tekan butang di bawah dan pilih semua 16 fail sekali gus. Fail dipadankan mengikut nama dan disimpan dalam pelayar ini sahaja.</p>'+
+ '<div class="row"><label class="btn blue sm filebtn">'+ico('upload')+' Pilih fail MP3 (boleh banyak)<input type="file" id="audFiles" accept="audio/*,.mp3" multiple aria-label="Pilih fail MP3"></label><button class="btn alt sm" data-act="clearAud">Kosongkan audio tersimpan</button></div>'+
+ '<p id="loadMsg" class="hint" role="status"></p>'+
+ '<p><b>Cara 2, untuk laman web yang diterbitkan:</b> letak semua fail dalam folder bernama <code>audio</code> di sebelah <code>index.html</code>. Semua murid akan dapat mendengarnya tanpa memilih fail.</p>'+
+ '<p><b>Nama fail:</b> huruf kecil, tanpa jarak, guna garis bawah. Setiap perkataan ada dua fail, contohnya <code>menanam.mp3</code> dan <code>ayat_menanam.mp3</code>.</p>'+
+ pills+'<p id="audCount" class="hint" role="status"></p></div></details>'+
+ '<div class="grid">'+cards+'</div>'+
+ '<div class="card soft stack" style="justify-items:center;text-align:center"><p class="lead"><b id="tickN">'+n+'</b> daripada 8 perkataan sudah disebut.</p>'+
+ '<button class="btn big" data-act="finishSebut" id="finSebut" '+(n<8||state.done.sebut?'disabled':'')+'>'+(state.done.sebut?ico('check')+' Misi ini selesai':'Saya selesai Dengar dan Sebut')+'</button>'+
+ '<p class="hint">Butang ini dibuka selepas kamu menanda semua 8 perkataan.</p></div></div>';
+}};
+PAGES[7]={t:'Jom Nyanyi Sama-sama',html:function(){
+ return '<div class="pagehead"><span class="eyebrow">Halaman 7</span><h1>Jom Nyanyi Sama-sama</h1><p>Lagu: “Jom Jaga Alam”. Baca liriknya dan nyanyi dengan kuat.</p></div><div class="stack"><div class="lyr">'+
+ '<div class="card"><span class="tag">Rangkap 1</span><p>Jom kawan-kawan menanam pokok,<br>Menyiram bunga agar tidak layu,<br>Mengutip sampah di taman kita,<br>Menjaga alam tanggungjawab semua.</p></div>'+
+ '<div class="card"><span class="tag">Rangkap 2</span><p>Mengasingkan sisa, mengitar semula,<br>Menutup paip, menjimatkan air,<br>Membersihkan sungai, melindungi haiwan,<br>Bumi yang bersih hidup sejahtera.</p></div>'+
+ '<div class="card chorus"><span class="tag">Korus</span><p>Menanam, menyiram, menjaga alam,<br>Mengutip sampah bersama-sama,<br>Kitar semula, selamatkan bumi,<br>Jadi Penjaga Alam Cilik!</p></div></div>'+
+ '<div class="card stack"><h3>Rakaman lagu</h3><div id="songBox">'+songBoxHTML()+'</div></div>'+
+ '<div class="card stack"><h3>Video Jom Nyanyi</h3><div class="vid"><video id="songVid" controls playsinline preload="metadata" aria-label="Video Jom Nyanyi"><source src="media/jom-nyanyi.mp4" type="video/mp4">Pelayar ini tidak menyokong video.</video></div>'+
+ '<div id="vidMsg" class="note warn hide" role="status">Video tidak dapat dimuatkan di sini. Buka video melalui pautan Google Drive di bawah.</div>'+
+ '<p class="hint"><a href="https://drive.google.com/file/d/1LKKAJen-KojWDRkQWv-vdhoCBkb_zm1t/view?usp=drive_link" target="_blank" rel="noopener">Buka video di Google Drive</a> jika pemain di atas tidak berfungsi.</p></div></div>';
+}};
+PAGES[8]={t:'Cari Kata Kerja',html:function(){
+ return '<div class="pagehead"><span class="eyebrow">Halaman 8</span><h1>Cari Kata Kerja</h1><p>Lihat gambar, baca situasi dan cari kata kerja dalam ayat. Pilih jawapan, kemudian tekan “Semak Jawapan”. Dalam aktiviti padanan, seret kad atau sentuh pasangannya.</p></div>'+
+ msec(1,'Kenali Kata Kerja','Mari kenali kata kerja daripada gambar dan situasi. Lihat betul-betul sebelum menjawab!','cari')+
+ msec(2,'Aksi Penjaga Alam','Padankan ayat dengan gambar, dan kata kerja dengan maksudnya. Kamu pasti boleh!','aksi');
+}};
+PAGES[9]={t:'Jenis-jenis Kata Kerja',html:function(){
+ var T4=[
+  {id:'trans',p:10,h:'Kata Kerja Transitif',r:'Memerlukan objek untuk melengkapkan maksud ayat.',s:[['Aina','s'],['menanam','k'],['pokok','o']],a:'menanam'},
+  {id:'tak',p:11,h:'Kata Kerja Tak Transitif',r:'Tidak memerlukan objek. Ayat sudah lengkap.',s:[['Burung','s'],['terbang','k']],a:'terbang'},
+  {id:'aktif',p:12,h:'Kata Kerja Aktif',r:'Subjek melakukan perbuatan.',s:[['Aina','s'],['menyiram','k'],['pokok','o']],a:'menyiram'},
+  {id:'pasif',p:13,h:'Kata Kerja Pasif',r:'Penekanan diberi kepada benda yang menerima perbuatan.',s:[['Pokok itu','o','penerima'],['disiram','k'],['oleh Aina','s','pembuat']],a:'pasif'}];
+ return '<div class="pagehead"><span class="eyebrow">Halaman 9</span><h1>Jenis-jenis Kata Kerja</h1><p>Ada empat jenis kata kerja yang akan kamu pelajari. Sentuh satu kad untuk belajar dan buat latihan.</p></div><div class="tcards">'+
+ T4.map(function(t){var d=state.done[t.id];return '<div class="card tcard">'+art(t.a)+'<h2>'+t.h+'</h2><p class="rule">'+t.r+'</p>'+sentence(t.s)+(d?'<span class="donebadge">'+ico('check')+' Latihan selesai</span>':'<span class="donebadge todo">Latihan belum selesai</span>')+'<button class="btn" data-act="go" data-p="'+t.p+'">Belajar '+t.h.replace('Kata Kerja ','')+'</button></div>';}).join('')+'</div>'+
+ '<div class="note" style="margin-top:22px">Satu perkataan boleh masuk dalam dua kumpulan. Contohnya, <b>menanam</b> ialah kata kerja transitif dan juga digunakan dalam ayat aktif.</div>';
+}};
+function kataPage(n,id,h,rule,parts,ex,art1,art2,tip){
+ return '<div class="pagehead"><span class="eyebrow">Halaman '+n+'</span><h1>'+h+'</h1><p>'+rule+'</p></div><div class="stack">'+
+ '<div class="card stack"><h3>Lihat ayat ini</h3>'+parts.map(function(p){return '<div class="stack" style="gap:8px">'+sentence(p[0])+(p[1]?'<p class="hint">'+p[1]+'</p>':'');}).join('')+(tip?'<div class="note">'+tip+'</div>':'')+'</div>'+
+ '<div class="two">'+art(art1)+(art2?art(art2):'')+'</div>'+exBox(id)+'</div>';
+}
+PAGES[10]={t:'Kata Kerja Transitif',html:function(){return kataPage(10,'trans','Kata Kerja Transitif','Kata kerja transitif memerlukan objek untuk melengkapkan maksud ayat.',
+ [[[['Aina','s'],['menanam','k'],['pokok','o']],'Menanam apa? Pokok. Tanpa objek, ayat belum lengkap.'],[[['Ali','s'],['mengutip','k'],['sampah','o']],'Mengutip apa? Sampah.']],null,'menanam','mengutip','Cara mudah: tanya “apa?” selepas kata kerja. Jika ada jawapan, itulah objek.');}};
+PAGES[11]={t:'Kata Kerja Tak Transitif',html:function(){return kataPage(11,'tak','Kata Kerja Tak Transitif','Kata kerja tak transitif tidak memerlukan objek untuk melengkapkan maksud ayat.',
+ [[[['Burung','s'],['terbang','k']],'Ayat ini sudah lengkap tanpa objek.'],[[['Adik','s'],['berlari','k'],['di taman','n']],'“Di taman” menunjukkan tempat. Ia bukan objek.']],null,'terbang',null,'Jika kita tanya “apa?” selepas kata kerja dan tiada jawapan, kata kerja itu ialah tak transitif.');}};
+PAGES[12]={t:'Kata Kerja Aktif',html:function(){return kataPage(12,'aktif','Kata Kerja Aktif','Dalam ayat aktif, subjek melakukan perbuatan.',
+ [[[['Aina','s'],['menyiram','k'],['pokok','o']],'Aina melakukan perbuatan menyiram.'],[[['Murid','s'],['membersihkan','k'],['taman','o']],'Murid melakukan perbuatan membersihkan.']],null,'menyiram','membersihkan','Ayat aktif biasanya bermula dengan pembuat perbuatan, kemudian kata kerja.');}};
+PAGES[13]={t:'Kata Kerja Pasif',html:function(){return kataPage(13,'pasif','Kata Kerja Pasif','Dalam ayat pasif, penekanan diberi kepada pihak atau benda yang menerima perbuatan.',
+ [[[['Pokok itu','o','penerima'],['disiram','k'],['oleh Aina','s','pembuat']],'Pokok menerima perbuatan menyiram.'],[[['Sampah itu','o','penerima'],['dikutip','k'],['oleh murid','s','pembuat']],'Sampah menerima perbuatan mengutip.']],null,'pasif','mengutip','Kata kerja pasif selalunya bermula dengan di-, seperti disiram dan dikutip.');}};
+PAGES[14]={t:'Cabaran Akhir',html:function(){
+ return '<div class="pagehead"><span class="eyebrow">Halaman 14</span><h1>Cabaran Akhir</h1><p>Dua misi terakhir menguji semua yang kamu belajar. Jawab dengan teliti. Sijil tidak bergantung pada markah, jadi jangan risau jika ada jawapan yang salah.</p></div>'+
+ msec(3,'Cabaran Bina Ayat','Gunakan kata kerja untuk membina ayat yang betul. Isi, susun dan lengkapkan!','bina')+
+ msec(4,'Selamatkan Hutan','Ini ujian terakhir. Gunakan semua yang kamu tahu untuk menyelamatkan hutan!','kuiz');
+}};
+PAGES[15]={t:'Sijil Pencapaian',html:function(){
+ if(!allDone()){
+  var pend=pendingTasks();
+  return '<div class="pagehead"><span class="eyebrow">Halaman 15</span><h1>Sijil Pencapaian</h1></div><div class="card stack" style="justify-items:center;text-align:center"><div style="color:var(--wood-l)"><svg class="ic" style="width:72px;height:72px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+I.lock+'</svg></div>'+
+  '<h2>Sijil masih terkunci</h2><p class="lead">Siapkan semua misi dahulu. Tinggal '+pend.length+' misi lagi.</p><div class="row" style="justify-content:center">'+
+  pend.map(function(t){return '<button class="btn alt" data-act="go" data-p="'+t.p+'">'+t.t+'</button>';}).join('')+'</div><p class="hint">Misi dianggap selesai selepas jawapan dihantar. Markah kuiz tidak menjadi syarat.</p></div>';
+ }
+ return '<div class="pagehead"><span class="eyebrow">Halaman 15</span><h1>Tahniah, '+esc(state.name)+'!</h1><p>Semua misi sudah selesai. Ini sijil kamu.</p></div><div class="stack">'+certHTML()+
+ '<div class="row" style="justify-content:center"><button class="btn big" data-act="print">'+ico('print')+' Cetak Sijil</button><button class="btn alt" data-act="go" data-p="16">Seterusnya '+ico('next')+'</button></div>'+
+ '<div id="printMsg" class="note hide" role="status"></div><p class="hint" style="text-align:center">Sijil dicetak pada kertas A4 landscape. Pilih “Simpan sebagai PDF” jika mahu menyimpannya.</p></div>';
+}};
+PAGES[16]={t:'Penutup',html:function(){
+ return '<div class="pagehead"><span class="eyebrow">Halaman 16</span><h1>Penutup</h1></div><div class="card two" style="align-items:center">'+art('meraikan')+'<div class="stack"><h2>Tahniah, Penjaga Alam Cilik'+(state.name?' '+esc(state.name):'')+'!</h2><p class="lead">Teruskan menggunakan kata kerja yang betul dan menjaga alam sekitar setiap hari.</p>'+
+ (doneCount()?'<div class="bdgrow" style="justify-content:flex-start">'+TASKS.filter(function(t){return state.done[t.id];}).map(function(t){return '<figure class="bdgf">'+badgeHTML(t.id,true)+'</figure>';}).join('')+'</div>':'')+'<div class="row"><button class="btn" data-act="go" data-p="1">'+ico('home')+' Laman Utama</button><button class="btn alt" data-act="askReset">'+ico('reload')+' Mulakan Semula</button>'+(allDone()?'<button class="btn alt" data-act="go" data-p="15">Lihat Sijil</button>':'')+'</div>'+
+ '<div id="resetBox" class="note warn hide stack"><b>Padam semua kemajuan pada pelayar ini? Nama kamu akan kekal.</b><div class="row"><button class="btn sm" data-act="doReset">Ya, mulakan semula</button><button class="btn alt sm" data-act="cancelReset">Tidak</button></div></div></div></div>';
+}};
+
+
+/* ============ Enjin latihan (7 jenis aktiviti) ============ */
+var PR=['Syabas!','Hebat!','Bagus!','Tahniah!'];
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function qType(q){return q.t||(q.chips?'chips':'mc');}
+function bankLen(q){var t=qType(q);if(t==='match')return q.pairs.length;if(t==='order')return q.words.length;if(t==='type')return 0;return (q.chips||q.o).length;}
+function perm(n,keep){var a=[],i;for(i=0;i<n;i++)a.push(i);if(keep||n<2)return a;var s;do{s=shuffle(a);}while(s.every(function(v,i){return v===i;}));return s;}
+function resetQ(s){s.sel=null;s.chk=false;s.ans=[];s.typed='';s.m={};s.wr=0;s.pk=null;s.bad=null;s.last=null;s.mf=null;}
+function exNew(id){var E=EXS[id];var s={i:0,res:[],fin:false,ord:E.qs.map(function(q){return perm(bankLen(q),!!q.chips);})};resetQ(s);return s;}
+function exSt(id){var s=state.ex[id];if(!s||!s.ord||s.ord.length!==EXS[id].qs.length){s=state.ex[id]=exNew(id);}if(!s.m||!s.ans){var r=s.res,i=s.i,f=s.fin,o=s.ord;resetQ(s);s.res=r;s.i=i;s.fin=f;s.ord=o;}return s;}
+function cont(it){if(it.img){var m=IMG[it.img];return '<img class="mimg" src="media/'+m[0]+'" alt="'+esc(m[3])+'" draggable="false">';}return '<span class="mtx">'+esc(it.txt)+'</span>';}
+function fbBox(ok,h,t){return '<div class="fb '+(ok?'ok':'no')+'" role="status"><span class="rb">'+rimbaImg()+'</span><div><b>'+esc(h)+'</b><span>'+esc(t)+'</span></div></div>';}
+function matchHTML(id,st,q){
+ var ord=st.ord[st.i];
+ var cells=q.pairs.map(function(p,li){
+  var done=!!st.m[li],cls='mcell'+(done?' ok':'')+(st.pk&&st.pk.s==='l'&&st.pk.i===li?' sel':'')+(st.bad&&st.bad.li===li?' bad':'');
+  return '<div class="'+cls+'" data-drop="'+li+'"'+(done?'':' data-act="mtL" data-ex="'+id+'" data-i="'+li+'" role="button" tabindex="0" aria-label="Pilih: '+esc(p.l.txt||IMG[p.l.img][3])+'"')+'>'+
+   '<div class="lv">'+cont(p.l)+'</div><div class="slot">'+(done?cont(p.r)+'<span class="mk">'+ico('check')+'</span>':'<span class="ph">Letakkan jawapan di sini</span>')+'</div></div>';}).join('');
+ var items=ord.map(function(ri){var placed=!!st.m[ri],r=q.pairs[ri].r;
+  return '<button class="mitem'+(r.txt?' tx':'')+(placed?' used':'')+(st.pk&&st.pk.s==='r'&&st.pk.i===ri?' sel':'')+(st.bad&&st.bad.ri===ri?' bad':'')+'" data-drag="'+ri+'" data-act="mtR" data-ex="'+id+'" data-i="'+ri+'"'+(placed?' disabled tabindex="-1"':'')+' aria-label="Jawapan: '+esc(r.txt||IMG[r.img][3])+'">'+cont(r)+'</button>';}).join('');
+ return '<div class="mt"><div class="mcells">'+cells+'</div><div class="mbank" aria-label="Kad jawapan">'+items+'</div></div>';
+}
+function orderHTML(id,st,q,ord){
+ var cls=st.chk?(st.last?' right':' wrong'):'';
+ var ans=st.ans.map(function(k,pos){return '<button class="wchip a" data-drag="a'+pos+'" data-drop="a'+pos+'" data-act="ordA" data-ex="'+id+'" data-i="'+pos+'"'+(st.chk?' disabled':'')+'>'+esc(q.words[ord[k]])+'</button>';}).join('');
+ var bank=ord.map(function(wi,k){var used=st.ans.indexOf(k)>=0;return '<button class="wchip'+(used?' used':'')+'" data-drag="b'+k+'" data-act="ordB" data-ex="'+id+'" data-i="'+k+'"'+(used||st.chk?' disabled tabindex="-1"':'')+'>'+esc(q.words[wi])+'</button>';}).join('');
+ return '<div class="stack" style="gap:12px"><div class="ansarea'+cls+'" data-drop="ans" aria-label="Ayat kamu">'+(ans||'<span class="ph">Letakkan perkataan di sini mengikut susunan ayat</span>')+'</div><div class="wbank" data-drop="bank" aria-label="Perkataan yang bercampur">'+bank+'</div></div>';
+}
+function blankSent(s,fill){var p=s.split('___');return esc(p[0])+fill+esc(p.slice(1).join('___'));}
+function exHTML(id){
+ var E=EXS[id],st=exSt(id),n=E.qs.length;
+ if(st.fin){
+  var sc=st.res.filter(function(r){return r.ok;}).length;
+  var msg=sc>=Math.ceil(n*.8)?'Hebat! Kamu memang pakar kata kerja.':(sc>=Math.ceil(n*.5)?'Bagus! Cuba lagi untuk dapat markah yang lebih tinggi.':'Jangan putus asa! Baca semula dan cuba lagi.');
+  var stars=Math.round(sc/n*3),st3='';for(var i=0;i<3;i++)st3+='<span class="'+(i<stars?'':'off')+'">'+ico('star')+'</span>';
+  return '<div class="result">'+(BADGE[id]?'<div class="bdgbig">'+badgeHTML(id,true)+'</div>':'')+'<div class="stars" aria-hidden="true">'+st3+'</div><h2>Misi selesai! Tahniah!</h2><div class="score" aria-label="Markah '+sc+' daripada '+n+'">'+sc+' / '+n+'</div><p class="lead">'+msg+'</p>'+
+  '<div class="note"><b>Misi ini sudah direkodkan sebagai selesai.</b>'+(id==='kuiz'?' Sijil tidak bergantung pada markah ini.':'')+'</div>'+
+  '<div class="row" style="justify-content:center"><button class="btn alt" data-act="exRetry" data-ex="'+id+'">'+ico('reload')+' Cuba Lagi</button>'+nextBtn(id)+'</div></div>';
+ }
+ var q=E.qs[st.i],ord=st.ord[st.i],t=qType(q),items=q.chips||q.o;
+ var dots='<div class="dots" aria-hidden="true">'+E.qs.map(function(_,i){var r=st.res[i];return '<i class="'+(i===st.i?'cur ':'')+(r?(r.ok?'r':'x'):'')+'"></i>';}).join('')+'</div>';
+ var LAB={mc:'Pilihan jawapan',chips:'Cari kata kerja dalam ayat',match:'Padankan',order:'Susun perkataan menjadi ayat',fill:'Isi tempat kosong',type:'Isi tempat kosong dengan menaip'};
+ var body='',corr='';
+ if(t==='match'){body='<p class="hint">Seret kad jawapan ke kotak yang betul, atau sentuh satu kad kemudian sentuh pasangannya.</p>'+matchHTML(id,st,q);}
+ else if(t==='order'){corr=q.words.join(' ');body='<p class="hint">Seret kad perkataan ke petak ayat, atau sentuh kad untuk memasukkannya. Sentuh perkataan dalam ayat untuk mengeluarkannya.</p>'+orderHTML(id,st,q,ord);}
+ else if(t==='type'){corr=q.ans;var tc=st.chk?(st.last?' right':' wrong'):'';
+  body='<div class="fillsent">'+blankSent(q.s,'<input class="tin'+tc+'" id="tin" type="text" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Taip kata kerja yang hilang" value="'+esc(st.typed)+'"'+(st.chk?' disabled':'')+'>')+'</div>';}
+ else if(t==='fill'){corr=items[q.a];var bc=st.chk?(st.last?' right':' wrong'):'';
+  body='<div class="fillsent">'+blankSent(q.s,'<span class="blank'+bc+'" data-drop="blank"'+(st.sel!==null&&!st.chk?' data-act="unpick" data-ex="'+id+'" role="button" tabindex="0"':'')+'>'+(st.sel!==null?esc(items[ord[st.sel]]):'&nbsp;')+'</span>')+'</div>'+
+  '<div class="chips" role="group" aria-label="Pilih kata kerja">'+ord.map(function(oi,k){var pr=st.sel===k,cl='';if(st.chk){if(oi===q.a)cl=' right';else if(pr)cl=' wrong';}
+   return '<button class="opt'+cl+'" data-drag="'+k+'" data-act="pick" data-ex="'+id+'" data-k="'+k+'" aria-pressed="'+pr+'"'+(st.chk?' disabled':'')+'><span>'+esc(items[oi])+'</span></button>';}).join('')+'</div>';}
+ else{corr=items[q.a].replace(/\.$/,'');
+  var opts=ord.map(function(oi,k){var cl='',pr=st.sel===k;if(st.chk){if(oi===q.a)cl=' right';else if(pr)cl=' wrong';}
+   return '<button class="opt'+cl+'" data-act="pick" data-ex="'+id+'" data-k="'+k+'" aria-pressed="'+pr+'"'+(st.chk?' disabled':'')+'>'+(q.chips?'':'<span class="l">'+'ABCD'.charAt(k)+'</span>')+'<span>'+esc(items[oi])+'</span></button>';}).join('');
+  body=q.chips?'<div class="chips" role="group" aria-label="Pilih satu perkataan">'+opts+'</div>':'<div class="opts" role="group" aria-label="Pilihan jawapan">'+opts+'</div>';}
+ var fb='';
+ if(t==='match'){
+  if(st.chk)fb=fbBox(true,PR[st.i%4]+' Semua padanan betul.',(st.wr?'Ada '+st.wr+' cubaan yang salah, tetapi kamu berjaya. ':'')+q.w);
+  else if(st.mf==='ok')fb=fbBox(true,'Betul!','Pasangan itu tepat. Teruskan memadankan.');
+  else if(st.mf==='no')fb=fbBox(false,'Belum tepat.','Cuba lagi. Pilih pasangan yang lain.');
+ }else if(st.chk){var ok=st.last;fb=fbBox(ok,ok?PR[st.i%4]+' Betul!':'Hampir betul. Cuba lagi!',(ok?'':'Jawapan yang betul: '+corr+'. ')+q.w);}
+ var last=st.i===n-1,nb='<button class="btn" data-act="exNext" data-ex="'+id+'">'+(last?'Lihat Keputusan':'Soalan Seterusnya')+' '+ico('next')+'</button>',btn;
+ if(t==='match')btn=st.chk?nb:'';
+ else if(st.chk)btn=(st.last?'':'<button class="btn alt" data-act="exTry" data-ex="'+id+'">'+ico('reload')+' Cuba Lagi</button>')+nb;
+ else{var dis=t==='order'?st.ans.length!==q.words.length:(t==='type'?!(st.typed||'').trim():st.sel===null);btn='<button class="btn" data-act="exCheck" data-ex="'+id+'"'+(dis?' disabled':'')+'>Semak Jawapan</button>';}
+ return '<div class="ex-top"><span class="ex-g">'+esc(q.g||LAB[t])+' · Soalan '+(st.i+1)+' daripada '+n+'</span>'+dots+'</div>'+
+ '<div class="q'+(q.art?' has-art':'')+'">'+(q.art?art(q.art):'')+'<div class="stack"><div class="qp">'+esc(q.p)+'</div>'+body+fb+'<div class="row">'+btn+'</div></div></div>';
+}
+function nextBtn(id){
+ if(id==='cari')return '<button class="btn" data-act="jump" data-t="aksi">Ke Misi 2 '+ico('next')+'</button>';
+ if(id==='bina')return '<button class="btn" data-act="jump" data-t="kuiz">Ke Misi 4 '+ico('next')+'</button>';
+ var m={aksi:9,trans:11,tak:12,aktif:13,pasif:14,kuiz:15};return '<button class="btn" data-act="go" data-p="'+m[id]+'">'+(id==='kuiz'?'Ke Sijil':'Seterusnya')+' '+ico('next')+'</button>';}
+function exRedraw(id){var b=$('[data-exbox="'+id+'"]');if(b)b.innerHTML=exHTML(id);}
+function mtTry(id,li,ri){
+ var st=exSt(id),q=EXS[id].qs[st.i];if(st.chk||st.m[li])return;st.pk=null;
+ if(li===ri){st.m[li]=true;st.bad=null;st.mf='ok';
+  if(Object.keys(st.m).length===q.pairs.length){if(!st.res[st.i])st.res[st.i]={ok:st.wr===0};st.chk=true;st.last=true;}}
+ else{st.wr++;st.bad={li:li,ri:ri};st.mf='no';}
+ save();exRedraw(id);
+}
+function ordMove(id,from,to){
+ var st=exSt(id);if(st.chk)return;var ans=st.ans,k;
+ if(from.charAt(0)==='b'){k=+from.slice(1);if(ans.indexOf(k)>=0)return;}else{k=ans.splice(+from.slice(1),1)[0];}
+ if(to==='ans')ans.push(k);else if(to.charAt(0)==='a')ans.splice(+to.slice(1),0,k);
+ save();exRedraw(id);
+}
+/* Seret dan lepas (Pointer Events: tetikus, sentuhan dan pen) */
+var drag=null,noClick=0;
+function dropAt(x,y){var el=document.elementFromPoint(x,y);return el&&el.closest?el.closest('[data-drop]'):null;}
+function hilite(t){document.querySelectorAll('.over').forEach(function(o){if(o!==t)o.classList.remove('over');});if(t)t.classList.add('over');}
+function endDrag(){if(drag){if(drag.g&&drag.g.parentNode)drag.g.parentNode.removeChild(drag.g);if(drag.el)drag.el.classList.remove('dragging');}hilite(null);drag=null;}
+function onDrop(dEl,tEl){
+ var box=dEl.closest('[data-exbox]');if(!box)return;var id=box.getAttribute('data-exbox'),st=exSt(id),q=EXS[id].qs[st.i],t=qType(q);
+ var dv=dEl.getAttribute('data-drag'),dp=tEl.getAttribute('data-drop');
+ if(t==='match'){mtTry(id,+dp,+dv);}
+ else if(t==='order'){if(dEl===tEl)return;ordMove(id,dv,dp);}
+ else if(t==='fill'&&dp==='blank'){if(st.chk)return;st.sel=+dv;save();exRedraw(id);}
+}
+document.addEventListener('pointerdown',function(e){
+ if(e.button>0)return;var d=e.target.closest('[data-drag]');if(!d||d.disabled)return;
+ drag={el:d,x:e.clientX,y:e.clientY,on:false,id:e.pointerId,g:null};
+});
+document.addEventListener('pointermove',function(e){
+ if(!drag||e.pointerId!==drag.id)return;
+ if(!drag.on){if(Math.hypot(e.clientX-drag.x,e.clientY-drag.y)<8)return;drag.on=true;
+  var r=drag.el.getBoundingClientRect(),g=drag.el.cloneNode(true);g.removeAttribute('data-act');g.removeAttribute('data-drag');g.removeAttribute('data-drop');g.classList.add('ghost');g.style.width=r.width+'px';
+  document.body.appendChild(g);drag.g=g;drag.dx=drag.x-r.left;drag.dy=drag.y-r.top;drag.el.classList.add('dragging');}
+ drag.g.style.left=(e.clientX-drag.dx)+'px';drag.g.style.top=(e.clientY-drag.dy)+'px';
+ hilite(dropAt(e.clientX,e.clientY));if(e.cancelable)e.preventDefault();
+});
+document.addEventListener('pointerup',function(e){
+ if(!drag||e.pointerId!==drag.id)return;
+ if(drag.on){var t=dropAt(e.clientX,e.clientY),d=drag.el;noClick=Date.now()+450;endDrag();if(t&&t!==d)onDrop(d,t);}else drag=null;
+});
+document.addEventListener('pointercancel',function(){endDrag();});
+document.addEventListener('click',function(e){if(Date.now()<noClick){e.stopPropagation();e.preventDefault();}},true);
+document.addEventListener('keydown',function(e){
+ if((e.key==='Enter'||e.key===' ')&&e.target.getAttribute&&e.target.getAttribute('role')==='button'&&e.target.tagName!=='BUTTON'){e.preventDefault();e.target.click();}
+ if(e.key==='Enter'&&e.target.id==='tin'){var b=$('[data-exbox] [data-act="exCheck"]');if(b&&!b.disabled)b.click();}
+});
+
+
+
+/* ============ Penghalaan dan paparan ============ */
+var cur=1;
+function pageFromHash(){var m=/^#halaman-(\d+)$/.exec(location.hash||'');var p=m?parseInt(m[1],10):1;return PAGES[p]?p:1;}
+function go(p){stopAudio();var h='#halaman-'+p;if(location.hash===h)render();else location.hash=h;}
+function render(){
+ var p=pageFromHash();if(p!==1&&!state.name)p=1;cur=p;
+ $('#view').innerHTML=PAGES[p].html();
+ chrome();
+ if(p===6||p===7)refreshAudio();
+ if(p===15&&allDone())$('#printRoot').innerHTML=certHTML();
+ window.scrollTo(0,0);
+ if(p===1){var i=$('#nama');if(i&&!state.name){try{i.focus({preventScroll:true});}catch(e){}}}
+}
+function chrome(){
+ var has=!!state.name,n=doneCount(),T=TASKS.length;
+ $('#top').innerHTML='<div class="brand"><img class="logo" src="media/aina-ali.jpg" alt="" draggable="false"><span>Penjaga Alam Cilik</span></div>'+
+ (has?'<div class="prog" aria-label="Kemajuan misi"><span>'+n+'/'+T+'</span><div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="'+T+'" aria-valuenow="'+n+'" aria-label="Misi selesai"><i style="width:'+(n/T*100)+'%"></i></div></div>'+
+ '<div class="tb"><button class="tbtn" data-act="go" data-p="1" aria-label="Laman utama">'+ico('home')+'<span class="lbl">Utama</span></button><button class="tbtn" data-act="go" data-p="3" aria-label="Peta pengembaraan">'+ico('map')+'<span class="lbl">Peta</span></button><button class="tbtn" data-act="go" data-p="1" aria-label="Tukar nama">'+ico('edit')+'<span class="lbl who">'+esc(state.name)+'</span></button></div>':'');
+ var nav=$('#nav');
+ if(!has||cur===1){nav.classList.add('hide');}else{nav.classList.remove('hide');
+  var nxt=cur<16?cur+1:null;
+  nav.innerHTML='<button class="btn alt sm" data-act="go" data-p="'+(cur-1)+'" '+(cur<=1?'disabled':'')+'>'+ico('back')+' Kembali</button><div class="mid"><span>Halaman '+cur+' daripada 16</span><b>'+esc(PAGES[cur].t)+'</b></div>'+
+  (nxt?'<button class="btn sm" data-act="go" data-p="'+nxt+'">Seterusnya '+ico('next')+'</button>':'<button class="btn sm" data-act="go" data-p="1">'+ico('home')+' Utama</button>');}
+}
+var tt;function toast(m){var t=$('#toast');t.textContent=m;t.classList.remove('hide');clearTimeout(tt);tt=setTimeout(function(){t.classList.add('hide');},3200);}
+function markDone(id){if(!state.done[id]){state.done[id]=true;save();var h=$('.bar i');chrome();toast('Misi selesai: '+TASKS.filter(function(t){return t.id===id;})[0].t);}}
+
+/* ============ Acara ============ */
+document.addEventListener('click',function(e){
+ var b=e.target.closest('[data-act]');if(!b||b.disabled)return;var a=b.getAttribute('data-act');
+ if(a==='go'){var p=parseInt(b.getAttribute('data-p'),10);if(PAGES[p])go(p);return;}
+ if(a==='play'){playKey(b.getAttribute('data-ak'),b);return;}
+ if(a==='tick'){var k=b.getAttribute('data-k');state.ticks[k]=!state.ticks[k];save();b.setAttribute('aria-pressed',!!state.ticks[k]);var n=WORDS.filter(function(w){return state.ticks[w.k];}).length;$('#tickN').textContent=n;$('#finSebut').disabled=n<8||!!state.done.sebut;return;}
+ if(a==='finishSebut'){markDone('sebut');b.disabled=true;b.innerHTML=ico('check')+' Misi ini selesai';return;}
+ if(a==='clearAud'){DB.clear().catch(function(){}).then(function(){location.reload();});return;}
+ if(a==='pick'){var id=b.getAttribute('data-ex'),st=exSt(id);if(st.chk)return;st.sel=parseInt(b.getAttribute('data-k'),10);save();exRedraw(id);return;}
+ if(a==='unpick'){var idu=b.getAttribute('data-ex'),su=exSt(idu);if(su.chk)return;su.sel=null;save();exRedraw(idu);return;}
+ if(a==='mtL'||a==='mtR'){var idm=b.getAttribute('data-ex'),sm=exSt(idm),im=parseInt(b.getAttribute('data-i'),10),sd=a==='mtL'?'l':'r';if(sm.chk)return;
+  if(sm.pk&&sm.pk.s!==sd){if(sd==='l')mtTry(idm,im,sm.pk.i);else mtTry(idm,sm.pk.i,im);}else{sm.pk=(sm.pk&&sm.pk.i===im)?null:{s:sd,i:im};sm.bad=null;sm.mf=null;exRedraw(idm);}return;}
+ if(a==='ordA'){ordMove(b.getAttribute('data-ex'),'a'+b.getAttribute('data-i'),'bank');return;}
+ if(a==='ordB'){ordMove(b.getAttribute('data-ex'),'b'+b.getAttribute('data-i'),'ans');return;}
+ if(a==='exTry'){var idt=b.getAttribute('data-ex'),stt=exSt(idt);stt.chk=false;stt.sel=null;stt.ans=[];stt.typed='';stt.last=null;save();exRedraw(idt);return;}
+ if(a==='jump'){var jb=$('[data-exbox="'+b.getAttribute('data-t')+'"]');if(jb){var sc=jb.closest('section')||jb;sc.scrollIntoView({behavior:'smooth',block:'start'});}return;}
+ if(a==='exCheck'){var id2=b.getAttribute('data-ex'),s2=exSt(id2);if(s2.chk)return;var q=EXS[id2].qs[s2.i],tq=qType(q),ok;
+  if(tq==='type'){var tv=(s2.typed||'').trim().toLowerCase().replace(/\s+/g,' ');if(!tv)return;ok=tv===q.ans;}
+  else if(tq==='order'){if(s2.ans.length!==q.words.length)return;ok=s2.ans.every(function(k,j){return q.words[s2.ord[s2.i][k]]===q.words[j];});}
+  else{if(s2.sel===null)return;ok=s2.ord[s2.i][s2.sel]===q.a;}
+  if(!s2.res[s2.i])s2.res[s2.i]={ok:ok};s2.last=ok;s2.chk=true;save();exRedraw(id2);var fb=$('[data-exbox="'+id2+'"] .fb');if(fb){fb.classList.add('bounce');}return;}
+ if(a==='exNext'){var id3=b.getAttribute('data-ex'),s3=exSt(id3),n3=EXS[id3].qs.length;if(!s3.chk)return;if(s3.i>=n3-1){s3.fin=true;save();markDone(id3);}else{s3.i++;resetQ(s3);save();}exRedraw(id3);var bx=$('[data-exbox="'+id3+'"]');if(bx)bx.scrollIntoView({block:'start',behavior:'smooth'});return;}
+ if(a==='exRetry'){var id4=b.getAttribute('data-ex');state.ex[id4]=exNew(id4);save();exRedraw(id4);return;}
+ if(a==='print'){var m=$('#printMsg');$('#printRoot').innerHTML=certHTML();var framed=false;try{framed=window.self!==window.top;}catch(x){framed=true;}
+   var imgs=Array.prototype.slice.call(document.querySelectorAll('#printRoot img'));Promise.all(imgs.map(function(im){return im.decode?im.decode().catch(function(){}):Promise.resolve();})).then(function(){try{window.print();}catch(x){}});
+   if(m){m.classList.remove('hide');m.textContent=framed?'Pratonton Artifact menyekat dialog cetak. Jika tiada dialog muncul, buka fail HTML sebenar (index.html) dalam pelayar anda, kemudian tekan Cetak Sijil. Pilih A4, landscape dan tanpa pengepala.':'Dialog cetak dibuka. Pilih A4, landscape dan tanpa pengepala. Pilih “Simpan sebagai PDF” untuk menyimpan.';}
+   return;}
+ if(a==='askReset'){$('#resetBox').classList.remove('hide');return;}
+ if(a==='cancelReset'){$('#resetBox').classList.add('hide');return;}
+ if(a==='doReset'){state.done={};state.ex={};state.ticks={};save();go(3);return;}
+});
+document.addEventListener('submit',function(e){
+ if(e.target.id!=='loginForm')return;e.preventDefault();
+ var v=$('#nama').value.replace(/[\u0000-\u001f\u007f]/g,'').replace(/\s+/g,' ').trim();
+ if(!v){$('#nameErr').textContent='Sila taip nama kamu dahulu.';$('#nama').focus();return;}
+ state.name=v.slice(0,30);save();go(2);
+});
+document.addEventListener('input',function(e){if(e.target.id==='nama'){var m=$('#nameErr');if(m)m.textContent='';}
+ if(e.target.id==='tin'){var bx=e.target.closest('[data-exbox]');if(bx){var s=exSt(bx.getAttribute('data-exbox'));s.typed=e.target.value;save();var cb=bx.querySelector('[data-act="exCheck"]');if(cb)cb.disabled=!s.typed.trim();}}});
+document.addEventListener('change',function(e){
+ if(e.target.id==='audFiles'||e.target.id==='songFile'){var f=e.target.files;if(f&&f.length){if(e.target.id==='songFile'&&f.length===1){var file=f[0];try{AUD.url[SONG]=URL.createObjectURL(file);AUD.st[SONG]='ready';AUD.user=AUD.user||{};AUD.user[SONG]=true;DB.put(SONG,file).catch(function(){});refreshAudio();toast('Rakaman lagu disambungkan');}catch(x){}}else handleFiles(f);}e.target.value='';}
+});
+window.addEventListener('hashchange',render);
+document.addEventListener('play',function(e){var t=e.target;document.querySelectorAll('audio,video').forEach(function(m){if(m!==t)try{m.pause();}catch(x){}});if(t!==player){try{player.pause();}catch(x){}if(curBtn)curBtn.classList.remove('playing');}},true);
+document.addEventListener('error',function(e){if(e.target&&e.target.id==='songVid'||(e.target&&e.target.parentNode&&e.target.parentNode.id==='songVid')){var m=document.getElementById('vidMsg');if(m)m.classList.remove('hide');}},true);
+window.addEventListener('pagehide',stopAudio);
+
+initAudio();
+render();
+})();
+</script>
+</body></html>
